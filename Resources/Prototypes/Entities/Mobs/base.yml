@@ -4,6 +4,7 @@
   save: false
   id: BaseControllable
   components:
+  - type: OrbitalBody
   - type: Sprite
     noRot: true
     drawdepth: Mobs

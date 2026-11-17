@@ -12,6 +12,6 @@ public sealed partial class OrbitalGravityComponent : Component
 
     [DataField, AutoNetworkedField] public Vector2 Center = new Vector2(500, 500f);
 
-    /// Ниже этого радиуса сила не растёт (защита от деления на ~0).
-    [DataField, AutoNetworkedField] public double MinRadius = 50;
+    /// Радиус самого небесного тела. Тело, подошедшее к центру ближе этого расстояния, удаляется.
+    [DataField, AutoNetworkedField] public double MinRadius = 150;
 }

@@ -67,6 +67,12 @@ public sealed class OrbitalGravitySystem : SharedOrbitalGravitySystem
         var r = Xform.GetWorldPosition(xform) - grav.Center;
         var dist = r.Length();
 
+        if (dist <= grav.MinRadius)
+        {
+            QueueDel(uid);
+            return;
+        }
+
         if (dist < 1f)
             return;
 

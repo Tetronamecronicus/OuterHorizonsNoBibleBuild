@@ -450,8 +450,8 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         {
             Orbit = new OrbitInfo(
                 ecc,
-                p / (1 + ecc),
-                closed ? p / (1 - ecc) : null,
+                p / (1 + ecc) - grav.MinRadius,                  // высота перицентра над поверхностью
+                closed ? p / (1 - ecc) - grav.MinRadius : null,  // высота апоцентра над поверхностью
                 closed ? 2 * Math.PI * Math.Pow(p / (1 - ecc * ecc), 1.5) / Math.Sqrt(gm) : null);
         }
 
@@ -477,15 +477,19 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         if (!own)
             return;
 
-        handle.DrawCircle(Vector2.Transform(grav.Center, worldToView), 10f, Color.Cyan);
+        var centerView = Vector2.Transform(grav.Center, worldToView);
+        var bodyRadiusView = Math.Max((float) grav.MinRadius * MinimapScale, 3f);
+
+        handle.DrawCircle(centerView, bodyRadiusView, Color.Cyan.WithAlpha(0.3f));
+        handle.DrawCircle(centerView, bodyRadiusView, Color.Cyan, false);
 
         if (ecc < 0.001)
             return;
 
-        DrawApsis(handle, worldToView, grav.Center, periapsisAngle, p / (1 + ecc), "Пе", color);
+        DrawApsis(handle, worldToView, grav.Center, periapsisAngle, p / (1 + ecc), "Пе", color, grav.MinRadius);
 
         if (closed)
-            DrawApsis(handle, worldToView, grav.Center, periapsisAngle + Math.PI, p / (1 - ecc), "Ап", color);
+            DrawApsis(handle, worldToView, grav.Center, periapsisAngle + Math.PI, p / (1 - ecc), "Ап", color, grav.MinRadius);
     }
 
     /// Точка на расстоянии distance от центра под углом angle, переведённая в координаты экрана.
@@ -501,12 +505,13 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         double angle,
         double distance,
         string name,
-        Color color)
+        Color color,
+        double bodyRadius)
     {
         var screen = OrbitPointToView(center, angle, distance, worldToView);
 
         handle.DrawCircle(screen, 4f, color);
-        handle.DrawString(Font, screen + new Vector2(8f, -8f), $"{name} {distance:F0}", color);
+        handle.DrawString(Font, screen + new Vector2(8f, -8f), $"{name} {distance - bodyRadius:F0}", color);
     }
     private readonly Vector2[] _gridMarker = new Vector2[3];
 

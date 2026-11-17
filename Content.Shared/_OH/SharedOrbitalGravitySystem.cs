@@ -54,12 +54,11 @@ public abstract class SharedOrbitalGravitySystem : EntitySystem
     }
 
     /// <summary>
-    /// Сила притяжения к центру на заданном расстоянии. Ниже MinRadius сила не растёт.
+    /// Сила притяжения к центру на заданном расстоянии.
     /// </summary>
     public double GetGravityForce(OrbitalGravityComponent grav, double dist, float bodyMass)
     {
-        double forceDist = Math.Max(dist, grav.MinRadius);
-        return grav.Mass * (float) grav.G / (forceDist * forceDist) * bodyMass;
+        return grav.Mass * (float) grav.G / (dist * dist) * bodyMass;
     }
 
     /// <summary>
