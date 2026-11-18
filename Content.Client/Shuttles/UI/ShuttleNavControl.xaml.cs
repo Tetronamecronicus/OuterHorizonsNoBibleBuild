@@ -389,8 +389,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
     private const int OrbitSegments = 256;
     private readonly Vector2[] _orbitPoints = new Vector2[OrbitSegments + 1];
-    private EntityUid? _smoothedGrid;
-    private double _smoothedDirection, _smoothedEx, _smoothedEy, _smoothedP;
+    private readonly OrbitSmoother _smoother = new();
 
     private void DrawOrbit(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color gridColor, bool own)
     {
@@ -405,53 +404,28 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
         }
 
         // Положение и скорость относительно центра притяжения (точка та же, что на сервере).
-        var r = GetRelative(grav, xform, body);
-        var v = body.LinearVelocity;
-        var radius = r.Length();
-
-        // Момент импульса на единицу массы: знак задаёт направление (больше нуля - против часовой).
-        double h = r.X * v.Y - r.Y * v.X;
-
-        if (radius < 1f || Math.Abs(h) < 1e-6)
+        if (!SharedOrbitalGravitySystem.TryGetOrbit(grav, GetRelative(grav, xform, body), body.LinearVelocity, out var orbit))
             return;
 
-        // Эффективное GM, как в TickPhysics (импульс без умножения на массу).
-        double gm = grav.G * grav.Mass;
-        double k = v.LengthSquared() / gm - 1 / radius;
-        double radialDot = r.X * v.X + r.Y * v.Y;
-        double direction = h > 0 ? 1 : -1;
-
-        // Вектор эксцентриситета (ex, ey) направлен на периапсис, p - параметр орбиты.
-        double ex = k * r.X - radialDot / gm * v.X;
-        double ey = k * r.Y - radialDot / gm * v.Y;
-        double p = h * h / gm;
-
         if (own)
-        {
-            // Первый кадр или смена грида/направления: blend = 1, то есть без сглаживания.
-            var blend = _smoothedGrid == gridUid && _smoothedDirection == direction
-                ? 1 - Math.Exp(-_timing.FrameTime.TotalSeconds / 0.1) // 0.1 - OrbitSmoothingTime
-                : 1;
+            orbit = _smoother.Smooth(gridUid, orbit, _timing.FrameTime.TotalSeconds);
 
-            _smoothedGrid = gridUid;
-            _smoothedDirection = direction;
-            ex = _smoothedEx += (ex - _smoothedEx) * blend;
-            ey = _smoothedEy += (ey - _smoothedEy) * blend;
-            p = _smoothedP += (p - _smoothedP) * blend;
-        }
-
-        double ecc = Math.Sqrt(ex * ex + ey * ey);
-        double periapsisAngle = Math.Atan2(ey, ex);
+        var ecc = orbit.Eccentricity;
+        var p = orbit.Parameter;
+        var periapsisAngle = orbit.PeriapsisAngle;
+        var direction = orbit.Direction;
 
         // Апоапсис и период есть только у замкнутой орбиты.
         var closed = ecc < 1;
 
         if (own)
         {
+            double gm = grav.G * grav.Mass;
+
             Orbit = new OrbitInfo(
                 ecc,
-                p / (1 + ecc) - grav.MinRadius,                  // высота перицентра над поверхностью
-                closed ? p / (1 - ecc) - grav.MinRadius : null,  // высота апоцентра над поверхностью
+                p / (1 + ecc) - grav.MinRadius,
+                closed ? p / (1 - ecc) - grav.MinRadius : null,
                 closed ? 2 * Math.PI * Math.Pow(p / (1 - ecc * ecc), 1.5) / Math.Sqrt(gm) : null);
         }
 
