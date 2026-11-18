@@ -12,7 +12,7 @@
 
 ## Контрибьют
 
-Имейте в виду, что при контрибьюции вы автоматически соглашаетесь с условиями ICLA, [указанными в следующем файле](https://github.com/MrUonov/outer-horizons-orbital/blob/master/LICENSE_ICLA.txt). Ознакомтесь с условиями, чтобы избежать недопонимания при дальнейшем контрибьюте.
+Имейте в виду, что при контрибьюции вы автоматически соглашаетесь с условиями ICLA, [указанными в следующем файле](https://github.com/eblushek-productions/outer-horizons-orbital/blob/master/LICENSE_ICLA.txt). Ознакомтесь с условиями, чтобы избежать недопонимания при дальнейшем контрибьюте.
 
 ## Сборка
 
@@ -28,9 +28,9 @@
 
 - Ниже указано только краткое описание лицензий. С подробностями лицензий вы можете ознакомиться перейдя по ниже оставленным ссылкам, или в файлах проекта.
 
-- Если не указано иное, весь исходный код и ассеты, созданные командой и контрибьютерами OuterHorizons, подпадают под условия, указанные в файле [LICENSE_OH14.TXT](https://github.com/MrUonov/outer-horizons-orbital/blob/master/LICENSE_OH14.TXT) (All rights reserved).
+- Если не указано иное, весь исходный код и ассеты, созданные командой и контрибьютерами OuterHorizons, подпадают под условия, указанные в файле [LICENSE_OH14.TXT](https://github.com/eblushek-productions/outer-horizons-orbital/blob/master/LICENSE_OH14.TXT) (All rights reserved).
 
-- Любой контент из SpaceWizards/SpaceStation14 без указанной лицензии на любой код лицензируется в соответствии с MIT ([LICENSE.txt](https://github.com/MrUonov/outer-horizons-orbital/blob/master/LICENSE.TXT)). Любой контент Space Wizards лицензируется в соответствии с CC-BY-SA 3.0 для Space Wizards Federation & Contributors.
+- Любой контент из SpaceWizards/SpaceStation14 без указанной лицензии на любой код лицензируется в соответствии с MIT ([LICENSE.txt](https://github.com/eblushek-productions/outer-horizons-orbital/blob/master/LICENSE.TXT)). Любой контент Space Wizards лицензируется в соответствии с CC-BY-SA 3.0 для Space Wizards Federation & Contributors.
 
 - Вы не имеете права использовать код и ассеты Outer Horizons в других проектах, без специального разрешения автора Outer Horizons (aserovich).
 
