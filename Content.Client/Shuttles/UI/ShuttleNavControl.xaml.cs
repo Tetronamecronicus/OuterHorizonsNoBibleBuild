@@ -286,9 +286,12 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             if (!gridAABB.Intersects(viewAABB))
                 continue;
 
-            DrawGrid(handle, curGridToView, grid, labelColor);
-            DrawDocks(handle, gUid, curGridToView);
             // OH-Changes-start, drawOrbits
+            if (ShouldDrawGridDetail(Vector2.Transform(gridBody.LocalCenter, curGridToWorld), mapPos.Position))
+            {
+                DrawGrid(handle, curGridToView, grid, labelColor);
+                DrawDocks(handle, gUid, curGridToView);
+            }
             DrawGridMarker(handle, worldToView, gUid, labelColor);
             DrawOrbit(handle, worldToView, gUid, labelColor, own: false);
             DrawVelocity(handle, worldToView, gUid, labelColor);

@@ -326,13 +326,20 @@ public sealed partial class MapScreen : BoxContainer
                 {
                     AddMapObject(mapComp.MapId, gridObj);
                 }
-                // If we can show it then add it to pending.
-                else if (!_shuttles.IsBeaconMap(mapUid) && (iffComp == null ||
-                         (iffComp.Flags & IFFFlags.Hide) == 0x0) &&
-                         !gridObj.HideButton)
+                // OH-Changes-start, показываем объекты сразу + не игнорируем HideLabel
+                // // If we can show it then add it to pending.
+                // else if (!_shuttles.IsBeaconMap(mapUid) && (iffComp == null ||
+                //          (iffComp.Flags & IFFFlags.Hide) == 0x0) &&
+                //          !gridObj.HideButton)
+                // {
+                //     _pendingMapObjects.Add((mapComp.MapId, gridObj));
+                // }
+                else if (!_shuttles.IsBeaconMap(mapUid) &&
+                        (iffComp == null || (iffComp.Flags & IFFFlags.Hide) == 0x0))
                 {
-                    _pendingMapObjects.Add((mapComp.MapId, gridObj));
+                    AddMapObject(mapComp.MapId, gridObj);
                 }
+                // OH-Changes-end
             }
 
             foreach (var (beacon, _) in _shuttles.GetExclusions(mapComp.MapId, _exclusions))
@@ -340,7 +347,7 @@ public sealed partial class MapScreen : BoxContainer
                 if (beacon.HideButton)
                     continue;
 
-                _pendingMapObjects.Add((mapComp.MapId, beacon));
+                AddMapObject(mapComp.MapId, beacon); // _pendingMapObjects.Add((mapComp.MapId, beacon)); // OH-Changes
             }
 
             foreach (var (beacon, _) in _shuttles.GetBeacons(mapComp.MapId, _beacons))
@@ -348,7 +355,7 @@ public sealed partial class MapScreen : BoxContainer
                 if (beacon.HideButton)
                     continue;
 
-                _pendingMapObjects.Add((mapComp.MapId, beacon));
+                AddMapObject(mapComp.MapId, beacon); // _pendingMapObjects.Add((mapComp.MapId, beacon)); // OH-Changes
             }
 
             HyperspaceDestinations.AddChild(mapButton);

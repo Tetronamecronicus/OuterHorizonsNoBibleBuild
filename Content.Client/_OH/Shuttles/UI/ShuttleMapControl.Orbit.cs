@@ -102,21 +102,17 @@ public sealed partial class ShuttleMapControl
             EntManager.TryGetComponent(grid, out IFFComponent? iffComp);
             var color = _shuttles.GetIFFColor(grid, self: own, component: iffComp);
 
-            // Свой грид: линия 0.6, апсиды непрозрачные. Чужие: всё на 80% прозрачное.
-            var lineColor = color.WithAlpha(own ? 0.6f : 0.2f);
-            var apsisColor = own ? color : color.WithAlpha(0.2f);
+            // Линия орбиты
+            handle.DrawPrimitives(DrawPrimitiveTopology.LineStrip, _orbitPoints, color.WithAlpha(own ? 0.6f : 0.2f));
 
-            handle.DrawPrimitives(DrawPrimitiveTopology.LineStrip, _orbitPoints, lineColor);
-
-            // У круговой орбиты апсиды не имеют смысла.
-            if (ecc < 0.001)
+            if (!own || ecc < 0.001)
                 continue;
 
-            DrawApsis(handle, matty, grav, orbit.PeriapsisAngle, orbit.Parameter / (1 + ecc), "Пе", apsisColor);
+            DrawApsis(handle, matty, grav, orbit.PeriapsisAngle, orbit.Parameter / (1 + ecc), "Пе", color);
 
             // Апоцентр есть только у замкнутой орбиты.
             if (ecc < 1)
-                DrawApsis(handle, matty, grav, orbit.PeriapsisAngle + Math.PI, orbit.Parameter / (1 - ecc), "Ап", apsisColor);
+                DrawApsis(handle, matty, grav, orbit.PeriapsisAngle + Math.PI, orbit.Parameter / (1 - ecc), "Ап", color);
         }
     }
 
