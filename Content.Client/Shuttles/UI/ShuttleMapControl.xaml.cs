@@ -69,8 +69,7 @@ public sealed partial class ShuttleMapControl : BaseShuttleControl
     private readonly Dictionary<Color, List<Vector2>> _edges = new();
     private readonly Dictionary<Color, List<(Vector2, string)>> _strings = new();
     private readonly List<ShuttleExclusionObject> _viewportExclusions = new();
-
-    public ShuttleMapControl() : base(256f, 512f, 512f)
+    public ShuttleMapControl() : base(256f, 5120f, 512f)
     {
         RobustXamlLoader.Load(this);
         _mapSystem = EntManager.System<SharedMapSystem>();
@@ -81,6 +80,8 @@ public sealed partial class ShuttleMapControl : BaseShuttleControl
         _physicsQuery = EntManager.GetEntityQuery<PhysicsComponent>();
 
         _font = new VectorFont(cache.GetResource<FontResource>("/EngineFonts/NotoSans/NotoSans-Regular.ttf"), 10);
+
+        InitOrbits(); // OH-Changes, drawOrbits
     }
 
     public void SetMap(MapId mapId, Vector2 offset, bool recentering = false)
@@ -212,6 +213,11 @@ public sealed partial class ShuttleMapControl : BaseShuttleControl
 
         foreach (var mapObj in mapObjects)
         {
+            // OH-Changes-start, грид мог быть удалён, а список объектов от сервера ещё не обновился
+            if (mapObj is GridMapObject deletedGrid && !EntManager.EntityExists(deletedGrid.Entity))
+                continue;
+            // OH-Changes-end
+
             // If it's a grid-map skip it.
             if (mapObj is GridMapObject gridObj && EntManager.HasComponent<MapComponent>(gridObj.Entity))
                 continue;
@@ -481,6 +487,8 @@ public sealed partial class ShuttleMapControl : BaseShuttleControl
         mapOffset = InverseMapPosition(mapOffset);
         var coordsText = $"{mapOffset.X:0.0}, {mapOffset.Y:0.0}";
         DrawData(handle, coordsText);
+
+        DrawOrbitOverlay(handle, matty, mapObjects, viewedMapUid); // OH-Changes, drawOrbits
     }
 
     private void AddMapObject(List<Vector2> edges, List<Vector2> verts, ValueList<Vector2> mapObject)
