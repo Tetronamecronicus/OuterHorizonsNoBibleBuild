@@ -139,6 +139,8 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             return;
         }
 
+        Orbit = null; // OH-Changes, drawOrbits
+
         var xformQuery = EntManager.GetEntityQuery<TransformComponent>();
         var fixturesQuery = EntManager.GetEntityQuery<FixturesComponent>();
         var bodyQuery = EntManager.GetEntityQuery<PhysicsComponent>();
@@ -166,9 +168,16 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             var ourGridToShuttle = Matrix3x2.Multiply(ourGridToWorld, worldToShuttle);
             var ourGridToView = ourGridToShuttle * shuttleToView;
             var color = _shuttles.GetIFFColor(ourGridId.Value, self: true);
+            var worldToView = worldToShuttle * shuttleToView; // OH-Changes, drawOrbits
 
             DrawGrid(handle, ourGridToView, (ourGridId.Value, ourGrid), color);
             DrawDocks(handle, ourGridId.Value, ourGridToView);
+            // OH-Changes-start, drawOrbits
+            DrawOrbit(handle, worldToView, ourGridId.Value, color, own: true);
+            DrawVelocity(handle, worldToView, ourGridId.Value, color);
+            DrawGridMarker(handle, worldToView, ourGridId.Value, Color.Cyan);
+            DrawDebugTrail(handle, worldToShuttle * shuttleToView, ourGridId.Value); // Debug thing, comment on release.
+            // OH-Changes-end
         }
 
         // Draw radar position on the station
@@ -205,6 +214,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
             var curGridToWorld = _transform.GetWorldMatrix(gUid);
             var curGridToView = curGridToWorld * worldToShuttle * shuttleToView;
+            var worldToView = worldToShuttle * shuttleToView;
 
             var labelColor = _shuttles.GetIFFColor(grid, self: false, iff);
             var coordColor = new Color(labelColor.R * 0.8f, labelColor.G * 0.8f, labelColor.B * 0.8f, 0.5f);
@@ -274,8 +284,16 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             if (!gridAABB.Intersects(viewAABB))
                 continue;
 
-            DrawGrid(handle, curGridToView, grid, labelColor);
-            DrawDocks(handle, gUid, curGridToView);
+            // OH-Changes-start, drawOrbits
+            if (ShouldDrawGridDetail(Vector2.Transform(gridBody.LocalCenter, curGridToWorld), mapPos.Position))
+            {
+                DrawGrid(handle, curGridToView, grid, labelColor);
+                DrawDocks(handle, gUid, curGridToView);
+            }
+            DrawGridMarker(handle, worldToView, gUid, labelColor);
+            DrawOrbit(handle, worldToView, gUid, labelColor, own: false);
+            DrawVelocity(handle, worldToView, gUid, labelColor);
+            // OH-Changes-end
         }
 
         // If we've set the controlling console, and it's on a different grid
@@ -354,7 +372,6 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             }
         }
     }
-
     private Vector2 InverseScalePosition(Vector2 value)
     {
         return (value - MidPointVector) / MinimapScale;

@@ -113,5 +113,7 @@ public sealed partial class NavScreen : BoxContainer
             ("Y", $"{gridVelocity.Y + 10f * float.Epsilon:0.0}"));
         GridAngularVelocity.Text = Loc.GetString("shuttle-console-angular-velocity-value",
             ("angularVelocity", $"{-MathHelper.RadiansToDegrees(gridBody.AngularVelocity) + 10f * float.Epsilon:0.0}"));
+
+        UpdateOrbitInfo(); // OH-Changes, drawOrbits
     }
 }
