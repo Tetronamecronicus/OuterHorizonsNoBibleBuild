@@ -12,10 +12,6 @@ using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
-using Content.Shared._OH;
-using System.Diagnostics;
-using System.Collections.Generic;
-using Robust.Shared.Timing;
 
 namespace Content.Client.Shuttles.UI;
 
@@ -25,8 +21,6 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
     private readonly SharedMapSystem _maps;
     private readonly SharedShuttleSystem _shuttles;
     private readonly SharedTransformSystem _transform;
-
-    [Dependency] private IGameTiming _timing = default!;
 
     //[Dependency] private SharedTransformSystem _xform = default!;
 
@@ -57,20 +51,12 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
     private List<Entity<MapGridComponent>> _grids = new();
 
-    public readonly record struct OrbitInfo(double Eccentricity, double Periapsis, double? Apoapsis, double? Period);
-    public OrbitInfo? Orbit { get; private set; }
-
     public ShuttleNavControl() : base(64f, 256f, 256f)
     {
         RobustXamlLoader.Load(this);
         _maps = EntManager.System<SharedMapSystem>();
         _shuttles = EntManager.System<SharedShuttleSystem>();
         _transform = EntManager.System<SharedTransformSystem>();
-
-        for (int i = 0; i < segmentsA; i++)
-        {
-            segmentsList.Add(new Vector2(0,0));
-        }
     }
 
     public void SetMatrix(EntityCoordinates? coordinates, Angle? angle)
@@ -155,7 +141,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             return;
         }
 
-        Orbit = null;
+        Orbit = null; // OH-Changes, drawOrbits
 
         var xformQuery = EntManager.GetEntityQuery<TransformComponent>();
         var fixturesQuery = EntManager.GetEntityQuery<FixturesComponent>();
@@ -188,10 +174,12 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
             DrawGrid(handle, ourGridToView, (ourGridId.Value, ourGrid), color);
             DrawDocks(handle, ourGridId.Value, ourGridToView);
+            // OH-Changes-start, drawOrbits
             DrawOrbit(handle, worldToView, ourGridId.Value, color, own: true);
             DrawVelocity(handle, worldToView, ourGridId.Value, color);
             DrawGridMarker(handle, worldToView, ourGridId.Value, Color.Cyan);
-            DrawDebugTrail(handle, worldToShuttle * shuttleToView, ourGridId.Value);
+            DrawDebugTrail(handle, worldToShuttle * shuttleToView, ourGridId.Value); // Debug thing, comment on release.
+            // OH-Changes-end
         }
 
         // Draw radar position on the station
@@ -300,9 +288,11 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
 
             DrawGrid(handle, curGridToView, grid, labelColor);
             DrawDocks(handle, gUid, curGridToView);
+            // OH-Changes-start, drawOrbits
             DrawGridMarker(handle, worldToView, gUid, labelColor);
             DrawOrbit(handle, worldToView, gUid, labelColor, own: false);
             DrawVelocity(handle, worldToView, gUid, labelColor);
+            // OH-Changes-end
         }
 
         // If we've set the controlling console, and it's on a different grid
@@ -381,174 +371,6 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             }
         }
     }
-    private Vector2 GetRelative(OrbitalGravityComponent grav, TransformComponent xform, PhysicsComponent body)
-    {
-        var com = Vector2.Transform(body.LocalCenter, _transform.GetWorldMatrix(xform));
-        return new Vector2(com.X - grav.Center.X, com.Y - grav.Center.Y);
-    }
-
-    private const int OrbitSegments = 256;
-    private readonly Vector2[] _orbitPoints = new Vector2[OrbitSegments + 1];
-    private readonly OrbitSmoother _smoother = new();
-
-    private void DrawOrbit(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color gridColor, bool own)
-    {
-        if (!EntManager.TryGetComponent(gridUid, out TransformComponent? xform) ||
-            !EntManager.TryGetComponent(gridUid, out PhysicsComponent? body) ||
-            !EntManager.HasComponent<OrbitalBodyComponent>(gridUid) ||
-            xform.MapUid is not { } map ||
-            !EntManager.TryGetComponent(map, out OrbitalGravityComponent? grav) ||
-            body.Mass <= 0f)
-        {
-            return;
-        }
-
-        // Положение и скорость относительно центра притяжения (точка та же, что на сервере).
-        if (!SharedOrbitalGravitySystem.TryGetOrbit(grav, GetRelative(grav, xform, body), body.LinearVelocity, out var orbit))
-            return;
-
-        if (own)
-            orbit = _smoother.Smooth(gridUid, orbit, _timing.FrameTime.TotalSeconds);
-
-        var ecc = orbit.Eccentricity;
-        var p = orbit.Parameter;
-        var periapsisAngle = orbit.PeriapsisAngle;
-        var direction = orbit.Direction;
-
-        // Апоапсис и период есть только у замкнутой орбиты.
-        var closed = ecc < 1;
-
-        if (own)
-        {
-            double gm = grav.G * grav.Mass;
-
-            Orbit = new OrbitInfo(
-                ecc,
-                p / (1 + ecc) - grav.MinRadius,
-                closed ? p / (1 - ecc) - grav.MinRadius : null,
-                closed ? 2 * Math.PI * Math.Pow(p / (1 - ecc * ecc), 1.5) / Math.Sqrt(gm) : null);
-        }
-
-        // Эллипс рисуем целиком, гиперболу (грид улетает) обрезаем по максимальному радиусу.
-        const double maxRadius = 20000;
-        double limit = closed ? Math.PI : Math.Acos(Math.Clamp((p / maxRadius - 1) / ecc, -1, 1));
-
-        for (var i = 0; i <= OrbitSegments; i++)
-        {
-            double trueAnomaly = -limit + 2 * limit * i / OrbitSegments;
-            _orbitPoints[i] = OrbitPointToView(
-                grav.Center,
-                periapsisAngle + direction * trueAnomaly,
-                p / (1 + ecc * Math.Cos(trueAnomaly)),
-                worldToView);
-        }
-
-        var color = own ? Color.Cyan.WithAlpha(0.4f) : gridColor.WithAlpha(0.1f);
-        handle.DrawPrimitives(DrawPrimitiveTopology.LineStrip, _orbitPoints, color);
-
-        // Центр притяжения и апсиды показываем только для своего грида.
-        // У круговой орбиты апсиды не имеют смысла.
-        if (!own)
-            return;
-
-        var centerView = Vector2.Transform(grav.Center, worldToView);
-        var bodyRadiusView = Math.Max((float) grav.MinRadius * MinimapScale, 3f);
-
-        handle.DrawCircle(centerView, bodyRadiusView, Color.Cyan.WithAlpha(0.3f));
-        handle.DrawCircle(centerView, bodyRadiusView, Color.Cyan, false);
-
-        if (ecc < 0.001)
-            return;
-
-        DrawApsis(handle, worldToView, grav.Center, periapsisAngle, p / (1 + ecc), "Пе", color, grav.MinRadius);
-
-        if (closed)
-            DrawApsis(handle, worldToView, grav.Center, periapsisAngle + Math.PI, p / (1 - ecc), "Ап", color, grav.MinRadius);
-    }
-
-    /// Точка на расстоянии distance от центра под углом angle, переведённая в координаты экрана.
-    private static Vector2 OrbitPointToView(Vector2 center, double angle, double distance, Matrix3x2 worldToView)
-    {
-        var offset = new Vector2((float) (distance * Math.Cos(angle)), (float) (distance * Math.Sin(angle)));
-        return Vector2.Transform(center + offset, worldToView);
-    }
-    private void DrawApsis(
-        DrawingHandleScreen handle,
-        Matrix3x2 worldToView,
-        Vector2 center,
-        double angle,
-        double distance,
-        string name,
-        Color color,
-        double bodyRadius)
-    {
-        var screen = OrbitPointToView(center, angle, distance, worldToView);
-
-        handle.DrawCircle(screen, 4f, color);
-        handle.DrawString(Font, screen + new Vector2(8f, -8f), $"{name} {distance - bodyRadius:F0}", color);
-    }
-    private readonly Vector2[] _gridMarker = new Vector2[3];
-
-    /// Треугольник в центре масс грида, повёрнутый так же, как грид.
-    private void DrawGridMarker(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color color)
-    {
-        if (!EntManager.TryGetComponent(gridUid, out PhysicsComponent? body))
-            return;
-
-        var gridToWorld = _transform.GetWorldMatrix(gridUid);
-        var center = Vector2.Transform(Vector2.Transform(body.LocalCenter, gridToWorld), worldToView);
-
-        var forward = Vector2.Normalize(Vector2.TransformNormal(Vector2.UnitY, gridToWorld * worldToView));
-        var side = new Vector2(-forward.Y, forward.X);
-
-        _gridMarker[0] = center + forward * 12;
-        _gridMarker[1] = center - forward * 12 * 0.5f + side * 12 * 0.6f;
-        _gridMarker[2] = center - forward * 12 * 0.5f - side * 12 * 0.6f;
-
-        handle.DrawPrimitives(DrawPrimitiveTopology.TriangleList, _gridMarker, color);
-    }
-    private void DrawVelocity(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color color)
-    {
-        if (!EntManager.TryGetComponent(gridUid, out PhysicsComponent? body) ||
-            body.LinearVelocity.Length() < 0.1)
-            return;
-
-        // Центр масс грида и точка, где он окажется через VelocityLookAheadSeconds при текущей скорости.
-        var centerWorld = Vector2.Transform(body.LocalCenter, _transform.GetWorldMatrix(gridUid));
-        var start = Vector2.Transform(centerWorld, worldToView);
-        var end = Vector2.Transform(centerWorld + body.LinearVelocity * 6, worldToView);
-        var lineColor = color.WithAlpha(0.5f);
-
-        handle.DrawLine(start, end, lineColor);
-        handle.DrawRect(new UIBox2(end.X - 5, end.Y - 5, end.X + 5, end.Y + 5), lineColor);
-    }
-    public const int segmentsA = 5000;
-    public List<Vector2> segmentsList = new List<Vector2>();
-    private void DrawDebugTrail(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid)
-    {
-        if (!EntManager.TryGetComponent(gridUid, out TransformComponent? xform) ||
-            !EntManager.TryGetComponent(gridUid, out PhysicsComponent? body) ||
-            !EntManager.HasComponent<OrbitalBodyComponent>(gridUid) ||
-            xform.MapUid is not { } map ||
-            !EntManager.TryGetComponent(map, out OrbitalGravityComponent? grav) ||
-            body.Mass <= 0f)
-        {
-            return;
-        }
-        var color = Color.Red.WithAlpha(0.7f);
-
-
-        for (var i = 1; i < segmentsList.Count; i++)
-        {
-            segmentsList[i-1] = segmentsList[i];
-        }
-        segmentsList[segmentsList.Count-1] = xform.WorldPosition;  // 0 1 2 3    4    3
-
-        for (int i = 1; i < segmentsList.Count; i++)
-        {
-            handle.DrawLine(Vector2.Transform(segmentsList[i-1], worldToView), Vector2.Transform(segmentsList[i], worldToView), color);
-        }
-}
     private Vector2 InverseScalePosition(Vector2 value)
     {
         return (value - MidPointVector) / MinimapScale;
