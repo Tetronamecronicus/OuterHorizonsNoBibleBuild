@@ -6,6 +6,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared;
 using Robust.Shared.Configuration;
+using Content.Shared._OuterHorizons.Configuration; // OH-Changes, postProcess
 
 namespace Content.Client.Options.UI.Tabs;
 
@@ -81,6 +82,7 @@ public sealed partial class GraphicsTab : Control
         Control.AddOptionCheckBox(CCVars.ViewportScaleRender, ViewportLowResCheckBox, invert: true);
         Control.AddOptionCheckBox(CCVars.ParallaxLowQuality, ParallaxLowQualityCheckBox);
         Control.AddOptionCheckBox(CCVars.HudFpsCounterVisible, FpsCounterCheckBox);
+        Control.AddOptionCheckBox(OuterHorizonsCVars.PostProcess, PostProcessCheckBox); // OH-Changes, postProcess
 
         Control.Initialize();
 

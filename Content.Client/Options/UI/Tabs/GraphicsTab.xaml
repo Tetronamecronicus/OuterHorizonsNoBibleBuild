@@ -24,6 +24,9 @@
                 <CheckBox Name="ViewportLowResCheckBox" Text="{Loc 'ui-options-vp-low-res'}" />
                 <CheckBox Name="ParallaxLowQualityCheckBox" Text="{Loc 'ui-options-parallax-low-quality'}" />
                 <CheckBox Name="AmbientOcclusionCheckBox" Text="{Loc 'ui-options-ambient-occlusion'}" />
+                <!-- OH-Changes-start, postProcess -->
+                <CheckBox Name="PostProcessCheckBox" Text="{Loc 'ui-options-postprocess'}" ToolTip="{Loc 'ui-options-postprocess-tooltip'}"/>
+                <!-- OH-Changes-end -->
                 <ui:OptionSlider Name="SharpnessSlider" Title="{Loc 'ui-options-sharpness'}" />
 
                 <!-- Interface -->
