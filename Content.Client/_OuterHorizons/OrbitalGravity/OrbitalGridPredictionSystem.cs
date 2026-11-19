@@ -1,5 +1,5 @@
 using System.Numerics;
-using Content.Shared._OH;
+using Content.Shared._OuterHorizons.OrbitalGravity;
 using Content.Shared.Movement.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map.Components;
@@ -9,7 +9,7 @@ using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Controllers;
 using Robust.Shared.Player;
 
-namespace Content.Client._OH;
+namespace Content.Client._OuterHorizons.OrbitalGravity;
 
 /// <summary>
 /// Движок не двигает гриды в предсказании: они стоят на месте до прихода следующего

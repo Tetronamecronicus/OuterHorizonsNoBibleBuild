@@ -2,7 +2,7 @@ using System.Numerics;
 using Robust.Shared.GameStates;
 using Robust.Shared.ViewVariables;
 
-namespace Content.Shared._OH;
+namespace Content.Shared._OuterHorizons.OrbitalGravity;
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class OrbitalBodyComponent : Component

@@ -1,11 +1,11 @@
 using System.Numerics;
-using Content.Shared._OH;
+using Content.Shared._OuterHorizons.OrbitalGravity;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 
-namespace Content.Server._OH;
+namespace Content.Server._OuterHorizons.OrbitalGravity;
 
 public sealed class OrbitalGravitySystem : SharedOrbitalGravitySystem
 {

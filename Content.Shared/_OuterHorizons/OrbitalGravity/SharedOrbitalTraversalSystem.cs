@@ -6,7 +6,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics.Systems;
 
-namespace Content.Shared._OH;
+namespace Content.Shared._OuterHorizons.OrbitalGravity;
 
 /// <summary>
 /// Смена родителя игрока на орбитальных картах. Штатный переход между гридами здесь

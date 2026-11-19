@@ -1,8 +1,8 @@
-using Content.Shared._OH;
+using Content.Shared._OuterHorizons.OrbitalGravity;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Player;
 
-namespace Content.Client._OH;
+namespace Content.Client._OuterHorizons.OrbitalGravity;
 
 /// <summary>
 /// На клиенте правило смены родителя применяется только к локальному игроку, и оно то же,

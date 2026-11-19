@@ -1,8 +1,8 @@
-using Content.Shared._OH;
+using Content.Shared._OuterHorizons.OrbitalGravity;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Player;
 
-namespace Content.Server._OH;
+namespace Content.Server._OuterHorizons.OrbitalGravity;
 
 /// <summary>
 /// На сервере правило смены родителя применяется ко всем, кем управляет игрок.

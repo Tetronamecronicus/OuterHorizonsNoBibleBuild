@@ -1,4 +1,4 @@
-using Content.Shared._OH;
+using Content.Shared._OuterHorizons.OrbitalGravity;
 
 namespace Content.Client.Shuttles.UI;
 
