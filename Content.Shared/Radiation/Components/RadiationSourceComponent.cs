@@ -6,7 +6,7 @@ namespace Content.Shared.Radiation.Components;
 /// Irradiate all objects in range.
 /// </summary>
 [RegisterComponent, AutoGenerateComponentState]
-[Access(typeof(SharedRadiationSystem))]
+[Access(typeof(SharedRadiationSystem), Other = AccessPermissions.ReadWrite)]
 public sealed partial class RadiationSourceComponent : Component
 {
     /// <summary>
@@ -27,4 +27,9 @@ public sealed partial class RadiationSourceComponent : Component
 
     [DataField, AutoNetworkedField]
     public bool Enabled = true;
+
+    // OH-Changes-start, solarFlare
+    [ViewVariables(VVAccess.ReadWrite)]
+    public bool IgnoreDistation = false;
+    // OH-Changes-end
 }
