@@ -1,1 +1,0 @@
-materials-brass = латунь
