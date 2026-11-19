@@ -22,10 +22,7 @@ public abstract partial class SharedOrbitalTraversalSystem : EntitySystem
     [Dependency] private SharedMapSystem _map = default!;
     [Dependency] private SharedGravitySystem _gravity = default!;
 
-    // Игрок цепляется за грид, подойдя к нему ближе этого расстояния (метры)
     private const float AttachDistance = 1f;
-
-    // Игрок остаётся ребёнком грида, пока не отлетел от него дальше этого расстояния (метры)
     private const float DetachDistance = 2f;
 
     private EntityQuery<OrbitalGravityComponent> _gravQuery;
