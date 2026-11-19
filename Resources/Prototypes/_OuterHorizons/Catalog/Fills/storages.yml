@@ -1,0 +1,331 @@
+# Большие шкафы
+
+- type: entity
+  parent: OH14_CabinetSpacesuits
+  id: OH14_CabinetBigFillEVAUco
+  suffix: Заполнен, ЕВА UCO
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_ClothingHeadHelmetUCO
+          amount: 2
+        - id: OH14_ClothingOuterHardsuitUCO
+          amount: 2
+        # - id: OH14_OxygenTankWhiteFilled
+        #   amount: 2
+        # - id: OH14_MedkitBasicFilled
+        #   prob: 0.4
+        # - id: OH14_ToolboxRedFilled
+        #   prob: 0.4
+
+- type: entity
+  parent: OH14_CabinetSpacesuits
+  id: OH14_CabinetBigFillEVARre
+  suffix: Заполнен, ЕВА RRE
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_ClothingHeadHelmetEVABasic
+          amount: 2
+        - id: OH14_ClothingOuterHardsuitEVABasic
+          amount: 2
+        # - id: OH14_OxygenTankRedFilled
+        #   amount: 2
+        # - id: OH14_MedkitBasicFilled
+        #   prob: 0.4
+        # - id: OH14_ToolboxRedFilled
+        #   prob: 0.4
+
+- type: entity
+  parent: OH14_CabinetSpacesuits
+  id: OH14_CabinetBigFillJetpacks
+  suffix: Заполнен, УКПМ Джетта
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_OxygenTankWhiteFilled
+        - id: OH14_JetpackWhite
+        - id: OH14_OxygenTankWhiteFilled
+        - id: OH14_JetpackWhite
+        # - id: OH14_OxygenTankWhiteFilled
+        #   amount: 2
+        # - id: OH14_MedkitBasicFilled
+        #   prob: 0.4
+        # - id: OH14_ToolboxRedFilled
+        #   prob: 0.4
+
+# Обычные шкафы
+
+- type: entity
+  parent: OH14_Dresser
+  id: OH14_DresserFilled
+  suffix: Заполнен, Одежда
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_ClothingTopic
+        - id: OH14_ClothingShirtBasic
+        - id: OH14_ClothingPantsBasic
+        - id: OH14_ClothingJumpsuitRealXimura
+          prob: 0.8
+
+- type: entity
+  parent: OH14_CabinetHydro
+  id: OH14_CabinetHydroFilled
+  suffix: Заполнен, Гидропоника
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_ToolMiniHoe
+        - id: OH14_ToolClippers
+        - id: OH14_ToolHatchet
+        - id: OH14_ToolSpade
+        - id: OH14_Dirt
+        # - id: OH14_DrinkGlassBottleNutri
+        #   prob: 0.5
+        # - id: OH14_DrinkGlassBottleNutri
+        #   prob: 0.25
+
+- type: entity
+  parent: OH14_CabinetMedical
+  id: OH14_CabinetBasicFillHeals
+  suffix: Заполнен, Медикаменты
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_MedkitBasicFilled
+          amount: 4
+        - id: OH14_MedipenEmergency
+          amount: 2
+        - id: OH14_MedipenPuncturase
+          amount: 2
+        - id: OH14_DrinkGlassBottleOculine
+          amount: 2
+        - id: OH14_DrinkGlassBottleDexalin
+          amount: 4
+        - id: OH14_DrinkGlassBottleBicaridine
+          amount: 2
+
+- type: entity
+  parent: OH14_CabinetEngi
+  id: OH14_CabinetBasicFillResources
+  suffix: Заполнен, Ресурсы
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_SheetGirder
+        - id: OH14_SheetPipes
+        - id: OH14_SheetIron
+        - id: OH14_SheetCopper
+        - id: OH14_SheetGlass
+        - id: OH14_Panel
+        - id: OH14_PanelHeavy
+        - id: OH14_Component
+        - id: OH14_Circuit
+
+- type: entity
+  parent: OH14_CabinetEngi
+  id: OH14_CabinetBasicFillShuttleRepair
+  suffix: Заполнен, Ремонт шаттла
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_CircuitboardShuttle
+        - id: OH14_Panel
+        - id: OH14_SheetGirder
+        - id: OH14_HeatChamber
+          amount: 2
+        - id: OH14_CopperStator
+          amount: 2
+        - id: OH14_PowerUnitComplete
+        - id: OH14_ControlUnitComplete
+
+- type: entity
+  parent: OH14_CabinetFreezer
+  id: OH14_CabinetBasicFillFood
+  suffix: Заполнен, Провиант
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_DrinkBottleWaterFull
+          amount: 6
+        - id: OH14_DrinkBottleKvasFull
+        - id: OH14_DrinkBottleKvasFull
+        - id: OH14_FoodHrumka
+          amount: 2
+          prob: 0.9
+        - id: OH14_FoodPotato
+          amount: 2
+        - id: OH14_FoodPotatoLoaded
+          amount: 2
+        - id: OH14_FoodPotatoLoaded
+          amount: 2
+          prob: 0.8
+        - id: OH14_FoodMarblemelon
+          amount: 2
+
+- type: entity
+  parent: OH14_CabinetEngi
+  id: OH14_CabinetBasicFillTools
+  suffix: Заполнен, Инструменты
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_FlashlightFilled
+        - id: OH14_CrowbarBasic
+          amount: 2
+        - id: OH14_WrenchBasic
+          amount: 2
+        - id: OH14_WirecutterBasic
+          amount: 2
+        - id: OH14_ScrewdriverBasic
+          amount: 2
+        - id: OH14_MultitoolBasic
+        - id: OH14_GeigerCounter
+        - id: OH14_ToolboxBlueFilled
+        - id: OH14_ToolboxYellowFilled
+
+# Ящики
+
+- type: entity
+  parent: OH14_Crate
+  id: OH14_CrateFillMaterials
+  suffix: Заполнен, Ресурсы
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_Panel8
+          prob: 0.8
+        - id: OH14_SheetGirder
+          prob: 0.8
+        - id: OH14_SheetPipes
+          prob: 0.8
+        - id: OH14_SheetIron8
+          prob: 0.4
+
+# Ящики с замком
+
+- type: entity
+  parent: OH14_CrateSec
+  id: OH14_CrateSecFillHeals
+  suffix: Заполнен, Медикаменты
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_MedkitBasicFilled
+        - id: OH14_MedkitBasicFilled
+          prob: 0.9
+        - id: OH14_MedkitBasicFilled
+          prob: 0.8
+        - id: OH14_MedkitBasicFilled
+          prob: 0.7
+        - id: OH14_MedkitBasicFilled
+          prob: 0.6
+
+- type: entity
+  parent: OH14_CrateSec
+  id: OH14_CrateSecFillWeapons
+  suffix: Заполнен, Вооружение
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_WeaponSMGAtarch
+        - id: OH14_WeaponSMGAtarch
+          prob: 0.9
+        - id: OH14_WeaponSMGAtarch
+          prob: 0.8
+        - id: OH14_MagazineSMGAtarch
+          amount: 3
+
+- type: entity
+  parent: OH14_CrateSec
+  id: OH14_CrateSecFillFood
+  suffix: Заполнен, Провиант
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_DrinkBottleWaterFull
+          amount: 2
+        - id: OH14_DrinkBottleWaterFull
+          amount: 2
+          prob: 0.8
+        - id: OH14_FoodHrumka
+          amount: 8
+        - id: OH14_FoodHrumka
+          amount: 4
+          prob: 0.6
+        - id: OH14_FoodHrumka
+          amount: 4
+          prob: 0.2
+
+# Полки
+
+- type: entity
+  parent: OH14_RackAlt
+  id: OH14_RackAltFillLoot
+  suffix: Заполнен, Разное
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: OH14_MedkitBasicFilled
+          prob: 0.1
+        - id: OH14_ToolboxRedFilled
+          prob: 0.1
+        - id: OH14_DrinkBottleWater
+          prob: 0.5
+        - id: OH14_DrinkBottleWater
+          prob: 0.5
+        - id: OH14_FoodHrumkaTrash
+          prob: 0.1
+        - id: OH14_FoodHrumkaTrash
+          prob: 0.1
+        - id: OH14_FoodHrumkaTrash
+          prob: 0.1
+        - id: OH14_PowerCellMediumEmpty
+          prob: 0.5
+        - id: OH14_PowerCellMediumEmpty
+          prob: 0.4
+        - id: OH14_PowerCellMediumEmpty
+          prob: 0.3
+        - id: ClothingHandsInsulatedGloves
+          prob: 0.2
+        - id: OH14_FireExtinguisher
+          prob: 0.4
+        - id: OH14_Paper
+          prob: 0.5
+        - id: OH14_Paper
+          prob: 0.5
+        - id: OH14_Pen
+          prob: 0.5
+        - id: OH14_DrinkGlassBottleNutri
+          prob: 0.1

@@ -1,0 +1,65 @@
+- type: entity
+  parent: OH14_ClothingShirtBase
+  id: OH14_ClothingJumpsuitUco
+  name: комбинезон
+  description: Но ведь он... белый?
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Clothing/Jumpsuit/uco.rsi
+  - type: Clothing
+    sprite: _OuterHorizons/Clothing/Jumpsuit/uco.rsi
+
+- type: entity
+  parent: OH14_ClothingShirtBase
+  id: OH14_ClothingJumpsuitAcorp
+  name: комбинезон
+  description: Темно-синий комбез, ничего странного?
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Clothing/Jumpsuit/acorp.rsi
+  - type: Clothing
+    sprite: _OuterHorizons/Clothing/Jumpsuit/acorp.rsi
+
+- type: entity
+  parent: OH14_ClothingShirtBase
+  id: OH14_ClothingJumpsuitXimura
+  name: комбинезон
+  description: Эй! Это не похоже на комбез грейтайда...
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Clothing/Jumpsuit/ximura.rsi
+  - type: Clothing
+    sprite: _OuterHorizons/Clothing/Jumpsuit/ximura.rsi
+
+- type: entity
+  parent: OH14_ClothingShirtBase
+  id: OH14_ClothingJumpsuitUCOCommander
+  name: комбинезон
+  description: Не себя его кровью.
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Clothing/Jumpsuit/uco_comm.rsi
+  - type: Clothing
+    sprite: _OuterHorizons/Clothing/Jumpsuit/uco_comm.rsi
+
+- type: entity
+  parent: OH14_ClothingShirtBase
+  id: OH14_ClothingJumpsuitRRECommander
+  name: комбинезон
+  description: Темный как ночь.
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Clothing/Jumpsuit/rre_comm.rsi
+  - type: Clothing
+    sprite: _OuterHorizons/Clothing/Jumpsuit/rre_comm.rsi
+
+- type: entity
+  parent: OH14_ClothingShirtBase
+  id: OH14_ClothingJumpsuitRealXimura
+  name: комбинезон
+  description: Оранжевый, яркий комбез.
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Clothing/Jumpsuit/ximura_alt.rsi
+  - type: Clothing
+    sprite: _OuterHorizons/Clothing/Jumpsuit/ximura_alt.rsi

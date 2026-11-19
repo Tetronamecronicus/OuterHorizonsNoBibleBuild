@@ -1,0 +1,302 @@
+- type: entity
+  name: "item"
+  id: OH14_BaseItem
+  categories: [ ForkFiltered ]
+  abstract: true
+  components:
+  - type: Item
+    size: Small
+  - type: Animateable
+  - type: Clickable
+  - type: InteractionOutline
+  - type: MovedByPressure
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/drop.ogg
+  - type: DamageOnHighSpeedImpact
+    damage:
+      types:
+        Blunt: 5
+    soundHit:
+      collection: MetalThud
+  - type: CollisionWake
+  - type: GravityAffected
+  - type: Physics
+    bodyType: Dynamic
+    fixedRotation: false
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 20
+        mask:
+        - ItemMask
+        restitution: 0.3  # fite me
+        friction: 0.2
+  - type: Sprite
+    drawdepth: Items
+    noRot: false
+  - type: Pullable
+  - type: DamageExaminable
+
+# SFX типы
+# Металл
+
+- type: entity
+  id: OH14_ItemSFXMetallic # Металл
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/metal_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/metal_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/metal_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/metal_drop.ogg
+
+- type: entity
+  id: OH14_ItemSFXLowMetallic # Трубки
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/pipe_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/pipe_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/pipe_kick.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/pipe_drop.ogg
+
+# Стекло
+
+- type: entity
+  id: OH14_ItemSFXGlass # Стакан
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/glass_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/glass_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/glass_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/glass_drop.ogg
+
+- type: entity
+  id: OH14_ItemSFXHightGlass # Стопка стекла
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/hight_glass_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/hight_glass_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/hight_glass_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/hight_glass_drop.ogg
+
+# Предметы
+
+- type: entity
+  id: OH14_ItemSFXAlt # Альтернативное
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/alt_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/alt_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/alt_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/alt_drop.ogg
+
+- type: entity
+  id: OH14_ItemSFXSmall # Маленькость
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/smoll_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/smoll_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/smoll_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/smoll_drop.ogg
+
+- type: entity
+  id: OH14_ItemSFXTool # Инструменты
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/tool_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/tool_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/tool_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/tool_drop.ogg
+
+# Бумага
+
+- type: entity
+  id: OH14_ItemSFXPaper # Лист
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/paper_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/paper_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/paper_kick.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/paper_drop.ogg
+
+# Руда
+
+- type: entity
+  id: OH14_ItemSFXStone # Камень
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/stone_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/stone_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/stone_kick.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/stone_drop.ogg
+
+- type: entity
+  id: OH14_ItemSFXHOre # Тяжелая руда
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/h_ore_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/h_ore_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/h_ore_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/h_ore_drop.ogg
+
+- type: entity
+  id: OH14_ItemSFXLOre # Легкая руда
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/l_ore_pickup.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/l_ore_pickup.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/l_ore_drop.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/l_ore_drop.ogg
+
+# Ткань
+
+- type: entity
+  id: OH14_ItemSFXFabric # Ткань
+  abstract: true
+  components:
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_OuterHorizons/Items/fabric_eu.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      path: /Audio/_OuterHorizons/Items/fabric_eu.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_OuterHorizons/Items/fabric_un.ogg
+  - type: EmitSoundOnDrop
+    sound:
+      path: /Audio/_OuterHorizons/Items/fabric_un.ogg
+
+# Хранилища
+
+- type: entity
+  name: "storage item"
+  id: OH14_BaseStorageItem
+  parent: OH14_BaseItem
+  abstract: true
+  components:
+  - type: Storage
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: []
+
+- type: entity
+  id: OH14_BaseStorageOpenClose
+  parent: OH14_BaseStorageItem
+  abstract: true
+  components:
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.SharedBagOpenVisuals.BagState: # You don't have to use both of these if its not necessary.
+        closeLayer:
+          Open: { visible: false }
+          Closed: { visible: true }
+        openLayer:
+          Open: { visible: true }
+          Closed: { visible: false }

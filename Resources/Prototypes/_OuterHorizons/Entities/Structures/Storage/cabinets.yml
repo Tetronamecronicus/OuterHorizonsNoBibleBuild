@@ -1,0 +1,195 @@
+- type: entity
+  id: OH14_CabinetBasic
+  parent: OH14_BaseStructureDynamic
+  name: шкаф
+  description: Большой вертикальный шкаф для рабочих иструментов. Не предназначен для спаривания внутри.
+  components:
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.StorageVisuals.Open:
+        top:
+          True: { visible: true }
+          False: { visible: false }
+  # - type: Climbable
+  - type: Transform
+    noRot: true
+  - type: Sprite
+    # drawdepth: Mobs
+    sprite: _OuterHorizons/Structures/Storage/cabinet.rsi
+    noRot: true
+    layers:
+    - state: basic
+    - state: basic_open
+      map: [ top ]
+      visible: false
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 60
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 30
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          OH14_SheetIron1:
+            min: 1
+            max: 2
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Storage
+    storageOpenSound: /Audio/_OuterHorizons/Storage/cabinet_open.ogg
+    storageCloseSound: /Audio/_OuterHorizons/Storage/cabinet_close.ogg
+    storageInsertSound: /Audio/_OuterHorizons/Items/drop.ogg # TODO, звуки предметов под замену
+    storageRemoveSound: /Audio/_OuterHorizons/Items/pickup.ogg
+    grid:
+    - 0,0,3,7
+    maxItemSize: Huge
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 400
+        mask:
+        - CrateMask #this is so they can go under plastic flaps
+        layer:
+        - MachineLayer
+  - type: InteractionOutline
+  - type: Clickable
+  - type: Anchorable
+  # - type: Rotatable
+  - type: Construction
+    graph: OH14_CabinetBasic
+    node: OH14_CabinetBasic
+
+- type: entity
+  id: OH14_CabinetBig
+  parent: OH14_CabinetBasic
+  name: шкаф
+  description: Большой вертикальный шкаф для рабочих иструментов. Не предназначен для спаривания внутри.
+  components:
+  - type: Construction
+    graph: OH14_CabinetBig
+    node: OH14_CabinetBig
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Storage/cabinet_big.rsi
+    layers:
+    - state: basic
+    - state: basic_open
+      map: [ top ]
+      visible: false
+  - type: Storage
+    grid:
+    - 0,0,7,7
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.45
+        density: 600
+        mask:
+        - CrateMask #this is so they can go under plastic flaps
+        layer:
+        - MachineLayer
+
+- type: entity
+  id: OH14_CabinetFreezer
+  parent: OH14_CabinetBasic
+  name: холодильник
+  description: Я должен тебе пиво.
+  components:
+  - type: ExplosionResistance
+    damageCoefficient: 0.50
+  - type: AntiRottingContainer
+  # - type: Construction
+  #   graph: OH14_Crate
+  #   node: OH14_Crate
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Storage/cabinet.rsi
+    layers:
+    - state: freezer
+    - state: freezer_open
+      map: [ top ]
+      visible: false
+
+- type: entity
+  id: OH14_CabinetSpacesuits
+  parent: OH14_CabinetBasic
+  name: хранилище скафандров
+  description: Я должен тебе баллон с О2.
+  components:
+  - type: Storage
+    storageOpenSound: /Audio/_OuterHorizons/Storage/spacesuit_open.ogg
+    storageCloseSound: /Audio/_OuterHorizons/Storage/spacesuit_close.ogg
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Storage/cabinet.rsi
+    layers:
+    - state: spacesuit
+    - state: spacesuit_open
+      map: [ top ]
+      visible: false
+
+- type: entity
+  id: OH14_CabinetMedical
+  parent: OH14_CabinetBasic
+  description: Я должен тебе апчечку.
+  suffix: Мед
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Storage/cabinet.rsi
+    layers:
+    - state: medical
+    - state: medical_open
+      map: [ top ]
+      visible: false
+
+- type: entity
+  id: OH14_CabinetEngi
+  parent: OH14_CabinetBasic
+  description: Я должен тебе тулбокс.
+  suffix: Инженерный
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Storage/cabinet.rsi
+    layers:
+    - state: engi
+    - state: engi_open
+      map: [ top ]
+      visible: false
+
+- type: entity
+  id: OH14_CabinetHydro
+  parent: OH14_CabinetBasic
+  description: Я должен тебе EZ-Нутриенты.
+  suffix: Гидропоника
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Storage/cabinet.rsi
+    layers:
+    - state: hydro
+    - state: hydro_open
+      map: [ top ]
+      visible: false

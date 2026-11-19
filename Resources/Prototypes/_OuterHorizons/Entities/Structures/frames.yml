@@ -1,0 +1,371 @@
+- type: entity
+  id: OH14_FrameBasic
+  parent: OH14_BaseStructureDynamic
+  abstract: true
+  name: каркас
+  description: Каркас вашего оборудования, ветхий и не надежный.
+  components:
+  - type: Transform
+    anchored: false
+    noRot: true
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          frame1: { state: frame0 }
+          frame2: { state: frame1 }
+          frame3: { state: frame2 }
+  - type: Appearance
+  - type: Sprite
+    noRot: true
+    sprite: _OuterHorizons/Structures/Machines/autolathe.rsi
+    state: frame0
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 60
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 30
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          OH14_SheetIron1:
+            min: 1
+            max: 2
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: InteractionOutline
+  - type: Clickable
+  - type: Anchorable
+
+# =============================================================================
+# Латы
+# =============================================================================
+
+- type: entity
+  id: OH14_FrameAutolathe
+  parent: OH14_FrameBasic
+  name: каркас автолата
+  components:
+  - type: Construction
+    graph: OH14_AutolatheFrame
+    node: frame1
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/autolathe.rsi
+    layers:
+    - state: frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+
+- type: entity
+  id: OH14_FrameProtolathe
+  parent: OH14_FrameBasic
+  name: каркас протолата
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/protolathe.rsi
+    layers:
+    - state: frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_ProtolatheFrame
+    node: frame1
+
+- type: entity
+  id: OH14_FrameArcFurnance
+  parent: OH14_FrameBasic
+  name: каркас дуговой печи
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/arcfurnace.rsi
+    layers:
+    - state: frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_ArcFurnanceFrame
+    node: frame1
+
+- type: entity
+  id: OH14_FrameOreProcessor
+  parent: OH14_FrameBasic
+  name: каркас очистителя руды
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/ore_processor.rsi
+    layers:
+    - state: frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_FrameOreProcessor
+    node: frame1
+
+# =============================================================================
+# Подстанции
+# =============================================================================
+
+- type: entity
+  id: OH14_SubstationFrame
+  parent: OH14_FrameBasic
+  name: каркас подстанции
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          subFrame: { state: substation_frame }
+          subFrame2: { state: substation }
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Power/substation.rsi
+    layers:
+    - state: substation_frame
+      # map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_SubstationFrame
+    node: subFrame
+
+- type: entity
+  id: OH14_SubstationWallFrame
+  categories: [ ForkFiltered ]
+  name: каркас настенной подстанции
+  description: Каркас подстанции, да.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: Fixtures
+  - type: Transform
+    anchored: true
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          subFrame: { state: substation_wall_frame }
+          subFrame2: { state: substation_wall }
+  - type: Sprite
+    drawdepth: WallMountedItems
+    sprite: _OuterHorizons/Structures/Power/substation.rsi
+    layers:
+    - state: substation_wall_frame
+  - type: Construction
+    graph: OH14_SubstationWallmount
+    node: subFrame
+  - type: WallMount
+
+# =============================================================================
+# Аккумы
+# =============================================================================
+
+- type: entity
+  id: OH14_BatteryArrayFrame
+  parent: OH14_FrameBasic
+  name: каркас массива аккумуляторов
+  components:
+  - type: ContainerContainer
+    containers:
+      powercell: !type:Container
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          frame1: { state: frame }
+          frame2: { state: empty }
+          # frame3: { state: fill1 }
+          # frame4: { state: fill2 }
+          # frame5: { state: fill3 }
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Power/smes.rsi
+    layers:
+    - state: frame
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_BatteryArray
+    node: frame1
+
+- type: entity
+  id: OH14_GeneratorTEFFrame
+  parent: OH14_FrameBasic
+  name: каркас ТЭТ Генератора
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          frame: { state: frame0 }
+          frame2: { state: frame1 }
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Power/fuel_generator.rsi
+    layers:
+    - state: frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_GeneratorTEF
+    node: frame
+
+# =============================================================================
+# Пламберы
+# =============================================================================
+
+- type: entity
+  id: OH14_PlumbingPillPressFrame
+  parent: OH14_FrameBasic
+  name: каркас химического пресса
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          frame: { state: pill_press_off_frame0 }
+          frame2: { state: pill_press_off_frame1 }
+          frame3: { state: pill_press_off_frame2 }
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Misc/Plumbing/plumbers.rsi
+    layers:
+    - state: pill_press_off_frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_PlumbingPillPress
+    node: frame1
+
+- type: entity
+  id: OH14_PlumbingReactorFrame
+  parent: OH14_FrameBasic
+  name: каркас реакционной камеры
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          frame: { state: reaction_chamber_frame0 }
+          frame2: { state: reaction_chamber_frame1 }
+          frame3: { state: reaction_chamber_frame2 }
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Misc/Plumbing/plumbers.rsi
+    layers:
+    - state: reaction_chamber_frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_PlumbingReactor
+    node: frame1
+
+- type: entity
+  id: OH14_PlumbingTankFrame
+  parent: OH14_FrameBasic
+  name: каркас резервуара
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Misc/Plumbing/plumbers.rsi
+    layers:
+    - state: tank_frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_PlumbingTank
+    node: frame1
+
+# =============================================================================
+# Бытовуха
+# =============================================================================
+
+- type: entity
+  id: OH14_MicrowaveFrame
+  parent: OH14_FrameBasic
+  name: каркас микроволновки
+  components:
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.3,-0.16,0.3,0.16"
+        density: 190
+        mask:
+        - TabletopMachineMask
+        layer:
+        - TabletopMachineLayer
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/microwave.rsi
+    layers:
+    - state: frame1
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: GenericVisualizer
+    visuals:
+      enum.ConstructionVisuals.Key:
+        enum.ConstructionVisuals.Layer:
+          frame: { state: frame1 }
+          frame2: { state: frame2 }
+  - type: Construction
+    graph: OH14_Microwave
+    node: frame1
+
+- type: entity
+  id: OH14_GrinderFrame
+  parent: OH14_FrameBasic
+  name: каркас измельчителя
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/grinder.rsi
+    layers:
+    - state: frame1
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_ReagentGrinder
+    node: frame1
+
+- type: entity
+  id: OH14_FrameElectrolyzer
+  parent: OH14_FrameBasic
+  name: каркас электролизера
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Machines/electrolyzer.rsi
+    layers:
+    - state: frame0
+      map: [ "enum.ConstructionVisuals.Layer" ]
+  - type: Construction
+    graph: OH14_ElectrolyzerFrame
+    node: frame1
+
+## Геник
+
+- type: entity
+  id: OH14_MagneticFieldGeneratorFrame
+  parent: OH14_FrameBasic
+  name: каркас генератора магнитных полей
+  components:
+  - type: Sprite
+    offset: "0, 0.3"
+    sprite: _OuterHorizons/Structures/Machines/shield_generator.rsi
+    state: frame0
+  - type: Construction
+    graph: OH14_MagneticFieldGenerator
+    node: frame1
+
+## Конденс
+
+- type: entity
+  id: OH14_GasCondenserFrame
+  parent: OH14_FrameBasic
+  name: каркас конденсатора
+  components:
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Misc/Atmospherics/condenser.rsi
+    state: frame0
+  - type: Construction
+    graph: OH14_GasCondenser
+    node: frame1

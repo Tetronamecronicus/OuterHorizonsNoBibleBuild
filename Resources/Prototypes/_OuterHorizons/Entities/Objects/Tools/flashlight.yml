@@ -1,0 +1,94 @@
+- type: entity
+  name: фонарик
+  parent: OH14_BaseItem
+  id: OH14_FlashlightBasic
+  description: Освещает путь к свободе.
+  suffix: Empty
+  components:
+  - type: InworldSprite
+  - type: GenericVisualizer
+    visuals:
+      enum.InworldSpriteState.State:
+        base:
+          True: {sprite: _OuterHorizons/Objects/Tools/flashlight.rsi}
+          False: {sprite: _OuterHorizons/Objects/Tools/flashlight_inworld.rsi}
+        light:
+          True: {sprite: _OuterHorizons/Objects/Tools/flashlight.rsi}
+          False: {sprite: _OuterHorizons/Objects/Tools/flashlight_inworld.rsi}
+  - type: Tag
+    tags:
+    - OH14_Tools
+    - Flashlight
+  - type: HandheldLight
+    addPrefix: false
+    blinkingBehaviourId: blinking
+    radiatingBehaviourId: radiating
+  - type: LightBehaviour
+    behaviours:
+      - !type:FadeBehaviour
+        id: radiating
+        maxDuration: 2.0
+        startValue: 3.0
+        endValue: 2.0
+        isLooped: true
+        reverseWhenFinished: true
+      - !type:PulseBehaviour
+        id: blinking
+        interpolate: Nearest
+        maxDuration: 1.0
+        startValue: 1.8
+        endValue: 2.0
+        isLooped: true
+  - type: ToggleableVisuals
+    spriteLayer: light
+    inhandVisuals:
+      left:
+      - state: inhand-left-light
+        shader: unshaded
+      right:
+      - state: inhand-right-light
+        shader: unshaded
+  - type: ItemTogglePointLight
+  - type: PowerCellSlot
+    cellSlotId: cell_slot
+  - type: ContainerContainer
+    containers:
+      cell_slot: !type:ContainerSlot
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        # startingItem: OH14_PowerCellMedium
+  - type: Sprite
+    sprite: _OuterHorizons/Objects/Tools/flashlight_inworld.rsi
+    layers:
+      - state: flashlight
+        map: [ "base" ]
+      - state: flashlight-overlay
+        shader: unshaded
+        visible: false
+        map: [ "light" ]
+  - type: Item
+    size: Normal
+    sprite: _OuterHorizons/Objects/Tools/flashlight.rsi
+  - type: PointLight
+    color: "#dabeab"
+    enabled: false
+    mask: /Textures/_OuterHorizons/Effects/LightMasks/cone_smoll.png
+    autoRot: true
+    radius: 6
+    netsync: false
+  - type: Appearance
+  - type: StaticPrice
+    price: 40
+
+- type: entity
+  parent: OH14_FlashlightBasic
+  id: OH14_FlashlightFilled
+  suffix: Filled
+  components:
+  - type: ItemSlots
+    slots:
+      cell_slot:
+        name: power-cell-slot-component-slot-name-default
+        startingItem: OH14_PowerCellMedium

@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "license": "All right reserved",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+		{
+			"name": "stairs_stage_dark",
+            "directions": 4
+		},
+        {
+            "name": "stairs_stage_white",
+            "directions": 4
+        },
+        {
+            "name": "stairs_stage_steel",
+            "directions": 4
+        }
+    ]
+}

@@ -1,0 +1,245 @@
+- type: construction
+  hide: false
+  id: OH14_GasPipeStraight
+  graph: OH14_GasPipe
+  startNode: start
+  targetNode: OH14_GasPipeStraight
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPipeBend
+  graph: OH14_GasPipe
+  startNode: start
+  targetNode: OH14_GasPipeBend
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPipeTJunction
+  graph: OH14_GasPipe
+  startNode: start
+  targetNode: OH14_GasPipeTJunction
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPipeFourway
+  graph: OH14_GasPipe
+  startNode: start
+  targetNode: OH14_GasPipeFourway
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPipeManifold
+  graph: OH14_GasPipe
+  startNode: start
+  targetNode: OH14_GasPipeManifold
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+# С компонентами
+
+- type: construction
+  hide: false
+  id: OH14_GasPort
+  graph: OH14_GasPumps
+  startNode: start
+  targetNode: OH14_GasPort
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPressurePump
+  graph: OH14_GasPumps
+  startNode: start
+  targetNode: OH14_GasPressurePump
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasVolumePump
+  graph: OH14_GasPumps
+  startNode: start
+  targetNode: OH14_GasVolumePump
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPassiveGate
+  graph: OH14_GasPumps
+  startNode: start
+  targetNode: OH14_GasPassiveGate
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasValve
+  graph: OH14_GasPumps
+  startNode: start
+  targetNode: OH14_GasValve
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+# Тройное
+
+- type: construction
+  hide: false
+  id: OH14_GasFilter
+  graph: OH14_GasPumpsTrinary
+  startNode: start
+  targetNode: OH14_GasFilter
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasFilterF
+  graph: OH14_GasPumpsTrinary
+  startNode: start
+  targetNode: OH14_GasFilterF
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasMixer
+  graph: OH14_GasPumpsTrinary
+  startNode: start
+  targetNode: OH14_GasMixer
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasMixerF
+  graph: OH14_GasPumpsTrinary
+  startNode: start
+  targetNode: OH14_GasMixerF
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+# Венты
+
+- type: construction
+  hide: false
+  id: OH14_GasVentPump
+  graph: OH14_GasPumpsVent
+  startNode: start
+  targetNode: OH14_GasVentPump
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasPassiveVent
+  graph: OH14_GasPumpsVent
+  startNode: start
+  targetNode: OH14_GasPassiveVent
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasVentScrubber
+  graph: OH14_GasPumpsVent
+  startNode: start
+  targetNode: OH14_GasVentScrubber
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_GasOutletInjector
+  graph: OH14_GasPumpsVent
+  startNode: start
+  targetNode: OH14_GasOutletInjector
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+- type: construction
+  hide: false
+  id: OH14_AirSensor
+  graph: OH14_GasPumpsVent
+  startNode: start
+  targetNode: OH14_AirSensor
+  category: construction-category-atmos
+  placementMode: AlignAtmosPipeLayers
+  canBuildInImpassable: true
+
+# Электроника
+
+- type: construction
+  hide: false
+  id: OH14_AirControl
+  graph: OH14_AirControl
+  startNode: start
+  targetNode: Frame
+  category: construction-category-atmos
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition
+
+# Хранилища
+
+- type: construction
+  hide: false
+  id: OH14_GasStorage
+  graph: OH14_GasStorage
+  startNode: start
+  targetNode: OH14_GasStorage
+  category: construction-category-atmos
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+
+- type: construction
+  hide: false
+  id: OH14_GasCanister
+  graph: OH14_GasCanister
+  startNode: start
+  targetNode: OH14_GasCanister
+  category: construction-category-atmos
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+
+- type: construction
+  hide: false
+  id: OH14_GasCondenser
+  graph: OH14_GasCondenser
+  startNode: start
+  targetNode: OH14_GasCondenser
+  category: construction-category-atmos
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false

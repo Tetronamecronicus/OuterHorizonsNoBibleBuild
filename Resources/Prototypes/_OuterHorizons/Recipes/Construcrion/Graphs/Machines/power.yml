@@ -1,0 +1,362 @@
+# ЛКП
+
+- type: constructionGraph
+  id: OH14_APC
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: apcFrame
+          steps:
+            - material: OH14_Girders
+              amount: 1
+              doAfter: 1
+    - node: apcFrame
+      entity: OH14_FrameAPC
+      edges:
+        - to: OH14_APC
+          steps:
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_SheetGirder1
+              amount: 1
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: OH14_APC
+      entity: OH14_APC_Open
+      edges:
+        - to: apcFrame
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_CopperStator
+              amount: 2
+          conditions:
+            - !type:WirePanel
+              open: true
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+# Подстанции
+
+- type: constructionGraph
+  id: OH14_SubstationWallmount
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: subFrame
+          steps:
+            - material: OH14_Girders
+              amount: 1
+              doAfter: 1
+    - node: subFrame
+      actions:
+      - !type:AppearanceChange
+      entity: OH14_SubstationWallFrame
+      edges:
+        - to: subFrame2
+          steps:
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_SheetGirder1
+              amount: 1
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: subFrame2
+      entity: OH14_SubstationWallFrame
+      actions:
+      - !type:AppearanceChange
+      edges:
+        - to: OH14_SubstationWallmount
+          steps:
+            - tag: OH14_AnalogBoardComplete
+              name: construction-graph-tag-analogboard
+              doAfter: 1
+        - to: subFrame
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_CopperStator
+              amount: 4
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: OH14_SubstationWallmount
+      entity: OH14_BaseSubstationWall
+      edges:
+        - to: subFrame2
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_AnalogBoardComplete
+              amount: 1
+          conditions:
+            - !type:WirePanel
+              open: true
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+# Обычная подстанция
+
+- type: constructionGraph
+  id: OH14_SubstationFrame
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: subFrame
+          steps:
+            - material: OH14_Girders
+              amount: 1
+              doAfter: 1
+    - node: subFrame
+      actions:
+      - !type:AppearanceChange
+      entity: OH14_SubstationFrame
+      edges:
+        - to: subFrame2
+          steps:
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_SheetGirder1
+              amount: 1
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: subFrame2
+      entity: OH14_SubstationFrame
+      actions:
+      - !type:AppearanceChange
+      edges:
+        - to: OH14_Substation
+          steps:
+            - tag: OH14_AnalogBoardComplete
+              name: construction-graph-tag-analogboard
+              doAfter: 1
+        - to: subFrame
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_CopperStator
+              amount: 4
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: OH14_Substation
+      entity: OH14_SubstationEmpty
+      edges:
+        - to: subFrame2
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_AnalogBoardComplete
+              amount: 1
+          conditions:
+            - !type:WirePanel
+              open: true
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+# Аккумы
+
+- type: constructionGraph
+  id: OH14_BatteryArray
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: frame1
+          steps:
+            - material: OH14_Girders
+              amount: 2
+              doAfter: 1
+    - node: frame1
+      actions:
+      - !type:AppearanceChange
+      entity: OH14_BatteryArrayFrame
+      edges:
+        - to: frame2
+          steps:
+            - material: OH14_CoilCopper
+              amount: 4
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_SheetGirder1
+              amount: 2
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: frame2
+      entity: OH14_BatteryArrayFrame
+      actions:
+      - !type:AppearanceChange
+      edges:
+        - to: OH14_BatteryArray
+          steps:
+            - tag: OH14_PowerCellBig
+              store: powercell
+              name: construction-graph-tag-powercell
+              doAfter: 1
+        - to: frame1
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_CoilCopper1
+              amount: 4
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: OH14_BatteryArray
+      entity: OH14_BatteryArrayEmpty
+      edges:
+        - to: frame2
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_Circuit1
+              amount: 1
+            - !type:EmptyAllContainers
+              pickup: true
+              emptyAtUser: true
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+# Генератор
+
+- type: constructionGraph
+  id: OH14_GeneratorTEF
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: frame
+          steps:
+            - material: OH14_Girders
+              amount: 1
+              doAfter: 1
+    - node: frame
+      actions:
+      - !type:AppearanceChange
+      entity: OH14_GeneratorTEFFrame
+      edges:
+        - to: frame2
+          steps:
+            - tag: OH14_CopperChamber
+              name: construction-graph-tag-copperchamber
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_SheetGirder1
+              amount: 1
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: frame2
+      entity: OH14_GeneratorTEFFrame
+      actions:
+      - !type:AppearanceChange
+      edges:
+        - to: OH14_GeneratorTEF
+          steps:
+            - tag: OH14_CopperStator
+              name: construction-graph-tag-copper-stator
+              doAfter: 1
+            - tag: OH14_CopperRotor
+              name: construction-graph-tag-copper-rotor
+              doAfter: 1
+        - to: frame
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_CopperChamber
+              amount: 1
+          steps:
+            - tool: Screwing
+              doAfter: 2
+    - node: OH14_GeneratorTEF
+      entity: OH14_GeneratorTEF
+      edges:
+        - to: frame2
+          completed:
+            - !type:SnapToGrid
+              southRotation: true
+            - !type:GivePrototype
+              prototype: OH14_CopperStator
+              amount: 1
+            - !type:GivePrototype
+              prototype: OH14_CopperRotor
+              amount: 1
+          # conditions:
+          #   - !type:WirePanel
+          #     open: true
+          steps:
+            - tool: Screwing
+              doAfter: 1
+            - tool: Prying
+              doAfter: 2
+
+# Кабельный терминал
+
+- type: constructionGraph
+  id: OH14_CableTerminal
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: cable_terminal
+          steps:
+            - material: OH14_CableCoilHV
+              amount: 5
+              doAfter: 2
+    - node: cable_terminal
+      entity: OH14_CableTerminal
+      edges:
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: OH14_CableCoilHV1
+              amount: 5
+            - !type:DeleteEntity
+          steps:
+            - tool: Cutting
+              doAfter: 3

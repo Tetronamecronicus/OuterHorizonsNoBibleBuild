@@ -1,0 +1,203 @@
+- type: entity
+  id: OH14_BasicDirectionalStructure
+  abstract: true
+  parent: OH14_BaseStructure
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Window
+  components:
+  - type: SpaceGarbage
+  - type: ExaminableDamage
+    messages: OH14_WallMessages
+  - type: WallMount
+    arc: 360 # interact despite grilles
+  - type: Tag
+    tags:
+      - Wall
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: state0
+  - type: Icon
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: state0
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,-0.28125"
+        density: 200
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+  - type: Repairable
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150 #excess damage (nuke?). avoid computational cost of spawning entities.
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+    - trigger:
+        !type:DamageTrigger
+        damage: 45
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+      - !type:ChangeConstructionNodeBehavior
+        node: frame
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          OH14_SheetIron1:
+            min: 0
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Airtight
+    noAirWhenFullyAirBlocked: false
+    airBlockedDirection:
+    - South
+  - type: Construction
+    graph: OH14_WallDirectional
+    node: OH14_WallDirectional
+  # - type: Appearance
+
+- type: entity
+  id: OH14_WallDirectional
+  parent: [ BaseDeltaPressureReinforcedGlassQuarter, OH14_BasicDirectionalStructure ]
+  name: направленная стена
+  description: Крайне восприимчима к повреждениям, не протыкать отверткой!
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: Occluder
+    boundingBox: "-0.5,-0.5,0.5,-0.3"
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: state0
+  - type: Icon
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: state0
+
+- type: entity
+  id: OH14_ShuttleWallDirectional
+  parent: OH14_BasicDirectionalStructure
+  name: направленная стена шаттла
+  description: Крайне восприимчима к повреждениям, однако, красивая.
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: Construction
+    graph: OH14_WallDirectional
+    node: OH14_ShuttleWallDirectional
+  - type: Occluder
+    boundingBox: "-0.5,-0.5,0.5,-0.3"
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: shuttle
+  - type: Icon
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: shuttle
+
+- type: entity
+  id: OH14_HeatWallDirectional
+  parent: OH14_BasicDirectionalStructure
+  name: теплоустойчивая направленная стена
+  description: Крайне восприимчима к повреждениям, однако, термостойкая.
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wall
+  components:
+  - type: Construction
+    graph: OH14_WallDirectional
+    node: OH14_HeatWallDirectional
+  - type: Occluder
+    boundingBox: "-0.5,-0.5,0.5,-0.3"
+  - type: Sprite
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: heat
+  - type: Icon
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: heat
+
+- type: entity
+  id: OH14_WallDirectionalFrame
+  name: каркас направленной стены
+  parent: OH14_BaseStructure
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Window
+  components:
+  - type: Construction
+    graph: OH14_WallDirectional
+    node: frame
+  - type: WallMount
+    arc: 360 # interact despite grilles
+  - type: Tag
+    tags:
+      - Wall
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: frame
+  - type: Icon
+    sprite: _OuterHorizons/Structures/Walls/basic_directional.rsi
+    state: frame
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,-0.28125"
+        density: 150
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50 #excess damage (nuke?). avoid computational cost of spawning entities.
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalSlam
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          OH14_SheetIron1:
+            min: 0
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
