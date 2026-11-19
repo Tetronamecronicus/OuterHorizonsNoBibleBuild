@@ -1,0 +1,13 @@
+{
+	"version": 1,
+	"license": "All right reserved",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+	"size": {"x": 32, "y": 32},
+	"states": [
+		{"name": "Overlay_Brute_15", "directions": 4},
+        {"name": "Overlay_Brute_30", "directions": 4},
+        {"name": "Overlay_Brute_45", "directions": 4},
+        {"name": "Overlay_Brute_60", "directions": 4},
+        {"name": "Overlay_Brute_75", "directions": 4}
+	]
+}

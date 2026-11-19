@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "license": "All right reserved",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "gasFilter",
+      "directions": 4
+    },
+    {
+      "name": "gasFilterF",
+      "directions": 4
+    },
+    {
+      "name": "gasFilter_unshaded",
+      "directions": 4
+    },
+    {
+      "name": "gasFilterF_unshaded",
+      "directions": 4
+    },
+    {
+      "name": "gasFilter_on",
+      "directions": 4
+    },
+    {
+      "name": "gasFilterF_on",
+      "directions": 4
+    }
+  ]
+}

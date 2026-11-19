@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "license": "All right reserved",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "panel"
+    },
+    {
+      "name": "panel_2"
+    },
+    {
+      "name": "panel_3"
+    },
+    {
+      "name": "h_panel"
+    },
+    {
+      "name": "h_panel_2"
+    },
+    {
+      "name": "h_panel_3"
+    },
+    {
+      "name": "panel-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "panel-inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "shuttle"
+    },
+    {
+      "name": "shuttle_2"
+    },
+    {
+      "name": "shuttle_3"
+    },
+    {
+      "name": "l_shuttle"
+    },
+    {
+      "name": "l_shuttle_2"
+    },
+    {
+      "name": "l_shuttle_3"
+    },
+    {
+      "name": "shuttle-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "shuttle-inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "heat"
+    },
+    {
+      "name": "heat_2"
+    },
+    {
+      "name": "heat_3"
+    },
+    {
+      "name": "heat-inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "heat-inhand-right",
+      "directions": 4
+    }
+  ]
+}
