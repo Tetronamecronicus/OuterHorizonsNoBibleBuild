@@ -1,5 +1,5 @@
 using System.Numerics;
-using Content.Shared._OH;
+using Content.Shared._OuterHorizons.OrbitalGravity;
 using Robust.Client.Graphics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Timing;

@@ -6,7 +6,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Timing;
 
-namespace Content.Shared._OH;
+namespace Content.Shared._OuterHorizons.OrbitalGravity;
 public readonly record struct OrbitElements(double Eccentricity, double Parameter, double PeriapsisAngle, int Direction);
 public abstract partial class SharedOrbitalGravitySystem : EntitySystem
 {

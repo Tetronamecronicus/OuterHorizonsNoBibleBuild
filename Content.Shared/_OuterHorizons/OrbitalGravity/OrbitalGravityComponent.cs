@@ -1,7 +1,7 @@
 using System.Numerics;
 using Robust.Shared.GameStates;
 
-namespace Content.Shared._OH;
+namespace Content.Shared._OuterHorizons.OrbitalGravity;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class OrbitalGravityComponent : Component

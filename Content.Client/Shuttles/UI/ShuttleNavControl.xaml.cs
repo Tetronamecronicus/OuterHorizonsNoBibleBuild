@@ -176,7 +176,7 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             DrawOrbit(handle, worldToView, ourGridId.Value, color, own: true);
             DrawVelocity(handle, worldToView, ourGridId.Value, color);
             DrawGridMarker(handle, worldToView, ourGridId.Value, Color.Cyan);
-            DrawDebugTrail(handle, worldToShuttle * shuttleToView, ourGridId.Value); // Debug thing, comment on release.
+            // DrawDebugTrail(handle, worldToShuttle * shuttleToView, ourGridId.Value); // Debug thing, comment on release.
             // OH-Changes-end
         }
 
