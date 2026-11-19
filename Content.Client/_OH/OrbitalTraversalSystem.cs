@@ -5,35 +5,18 @@ using Robust.Shared.Player;
 namespace Content.Client._OH;
 
 /// <summary>
-/// На орбитальных картах клиент не меняет родителя локального игрока сам:
-/// в предсказании грид не двигается, и проверка "над каким гридом игрок"
-/// даёт неверный результат. Родителя меняет сервер, клиент получает его в состоянии.
+/// На клиенте правило смены родителя применяется только к локальному игроку, и оно то же,
+/// что на сервере, поэтому игрок не ждёт решения сервера при переходах.
 /// </summary>
-public sealed partial class OrbitalTraversalSystem : EntitySystem
+public sealed partial class OrbitalTraversalSystem : SharedOrbitalTraversalSystem
 {
     [Dependency] private ISharedPlayerManager _player = default!;
-
-    private EntityQuery<OrbitalGravityComponent> _gravQuery;
-
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        _gravQuery = GetEntityQuery<OrbitalGravityComponent>();
-    }
 
     public override void Update(float frameTime)
     {
         if (_player.LocalEntity is not { } player)
             return;
 
-        var xform = Transform(player);
-
-        var onOrbitalMap = xform.MapUid is { } map && _gravQuery.HasComp(map);
-        var inSpace = xform.ParentUid == xform.MapUid;
-
-        // На орбитальной карте: в космосе клиент сам может зацепиться за грид,
-        // а покидает грид игрок только по решению сервера
-        xform.GridTraversal = !onOrbitalMap || inSpace;
+        UpdateParent(player, Transform(player));
     }
 }
