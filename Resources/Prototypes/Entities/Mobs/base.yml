@@ -4,6 +4,10 @@
   save: false
   id: BaseControllable
   components:
+  # OH-Changes-start, orbitalMoverment
+  - type: OrbitalBody
+    initCircular: false
+  # OH-Changes-end
   - type: Sprite
     noRot: true
     drawdepth: Mobs

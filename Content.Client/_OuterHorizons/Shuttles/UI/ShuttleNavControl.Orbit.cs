@@ -3,12 +3,14 @@ using Content.Shared._OuterHorizons.OrbitalGravity;
 using Robust.Client.Graphics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Timing;
+using Robust.Client.Player;
 
 namespace Content.Client.Shuttles.UI;
 
 public sealed partial class ShuttleNavControl
 {
     [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IPlayerManager _player = default!;
 
     public readonly record struct OrbitInfo(double Eccentricity, double Periapsis, double? Apoapsis, double? Period);
     public OrbitInfo? Orbit { get; private set; }
@@ -25,11 +27,11 @@ public sealed partial class ShuttleNavControl
         return new Vector2(com.X - grav.Center.X, com.Y - grav.Center.Y);
     }
 
-    private void DrawOrbit(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color gridColor, bool own)
+    private void DrawOrbit(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid uid, Color gridColor, bool own)
     {
-        if (!EntManager.TryGetComponent(gridUid, out TransformComponent? xform) ||
-            !EntManager.TryGetComponent(gridUid, out PhysicsComponent? body) ||
-            !EntManager.HasComponent<OrbitalBodyComponent>(gridUid) ||
+        if (!EntManager.TryGetComponent(uid, out TransformComponent? xform) ||
+            !EntManager.TryGetComponent(uid, out PhysicsComponent? body) ||
+            (!EntManager.HasComponent<OrbitalBodyComponent>(uid) && uid != _player.LocalEntity) ||
             xform.MapUid is not { } map ||
             !EntManager.TryGetComponent(map, out OrbitalGravityComponent? grav) ||
             body.Mass <= 0f)
@@ -42,7 +44,7 @@ public sealed partial class ShuttleNavControl
             return;
 
         if (own)
-            orbit = _smoother.Smooth(gridUid, orbit, _timing.FrameTime.TotalSeconds);
+            orbit = _smoother.Smooth(uid, orbit, _timing.FrameTime.TotalSeconds);
 
         var ecc = orbit.Eccentricity;
         var p = orbit.Parameter;
@@ -99,6 +101,19 @@ public sealed partial class ShuttleNavControl
         if (closed)
             DrawApsis(handle, worldToView, grav.Center, periapsisAngle + Math.PI, p / (1 - ecc), "Ап", color, grav.MinRadius);
     }
+    private void DrawPlayerOrbit(DrawingHandleScreen handle, Matrix3x2 worldToView)
+    {
+        if (_player.LocalEntity is not { } player ||
+            !EntManager.TryGetComponent(player, out TransformComponent? xform) ||
+            xform.GridUid != null) // на гриде орбита игрока совпадает с орбитой грида
+        {
+            return;
+        }
+
+        DrawOrbit(handle, worldToView, player, Color.Cyan, own: true);
+        DrawVelocity(handle, worldToView, player, Color.Cyan);
+        DrawGridMarker(handle, worldToView, player, Color.Cyan, facesSouth: true);
+    }
 
     /// Точка на расстоянии distance от центра под углом angle, переведённая в координаты экрана.
     private static Vector2 OrbitPointToView(Vector2 center, double angle, double distance, Matrix3x2 worldToView)
@@ -127,7 +142,7 @@ public sealed partial class ShuttleNavControl
     private readonly Vector2[] _gridMarker = new Vector2[3];
 
     /// Треугольник в центре масс грида, повёрнутый так же, как грид.
-    private void DrawGridMarker(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color color)
+    private void DrawGridMarker(DrawingHandleScreen handle, Matrix3x2 worldToView, EntityUid gridUid, Color color, bool facesSouth = false)
     {
         if (!EntManager.TryGetComponent(gridUid, out PhysicsComponent? body))
             return;
@@ -135,7 +150,8 @@ public sealed partial class ShuttleNavControl
         var gridToWorld = _transform.GetWorldMatrix(gridUid);
         var center = Vector2.Transform(Vector2.Transform(body.LocalCenter, gridToWorld), worldToView);
 
-        var forward = Vector2.Normalize(Vector2.TransformNormal(Vector2.UnitY, gridToWorld * worldToView));
+        var localForward = facesSouth ? -Vector2.UnitY : Vector2.UnitY;
+        var forward = Vector2.Normalize(Vector2.TransformNormal(localForward, gridToWorld * worldToView));
         var side = new Vector2(-forward.Y, forward.X);
 
         _gridMarker[0] = center + forward * 12;
