@@ -1,5 +1,6 @@
 using System.Numerics;
 using Robust.Shared.Physics.Components;
+using Content.Shared._OuterHorizons.Movement.Events;
 
 namespace Content.Shared.Movement.Systems;
 
@@ -24,6 +25,8 @@ public abstract partial class SharedMoverController
     /// </summary>
     private Vector2 GetOrbitalCorrection(EntityUid uid, Vector2 wishDir)
     {
-        return Vector2.Zero;
+        var ev = new OrbitalCorrectionEvent(wishDir);
+        RaiseLocalEvent(uid, ref ev);
+        return ev.Impulse;
     }
 }

@@ -70,11 +70,13 @@ public abstract partial class SharedJetpackSystem : EntitySystem
             SetEnabled(ent.AsNullable(), false, ent.Comp.JetpackUser);
     }
 
-    [SubscribeLocalEvent]
-    private void OnJetpackUserCanWeightless(Entity<JetpackUserComponent> ent, ref CanWeightlessMoveEvent args)
-    {
-        args.CanMove = true;
-    }
+    // OH-Changes-start, orbitalJetpack: тяга джетпака идёт через OrbitalCorrectionEvent.
+    // [SubscribeLocalEvent]
+    // private void OnJetpackUserCanWeightless(Entity<JetpackUserComponent> ent, ref CanWeightlessMoveEvent args)
+    // {
+    //     args.CanMove = true;
+    // }
+    // OH-Changes-end
 
     [SubscribeLocalEvent]
     private void OnJetpackUserEntParentChanged(Entity<JetpackUserComponent> ent, ref EntParentChangedMessage args)
