@@ -170,7 +170,7 @@ public sealed partial class ParticleSpawnerSystem : EntitySystem
         TransformComponent? xform =_entityManager.GetComponent<TransformComponent>(uid);
 
         Vector2 spawnerRelativePos = xform.MapPosition.Position - _eyeManager.CurrentEye.Position.Position;
-        if (MathF.Abs(spawnerRelativePos.X)>_eyeManager.CurrentEye.Scale.X || MathF.Abs(spawnerRelativePos.Y)>_eyeManager.CurrentEye.Scale.Y)
+        if (MathF.Abs(spawnerRelativePos.X)>_eyeManager.CurrentEye.Zoom.X*20 || MathF.Abs(spawnerRelativePos.Y)>_eyeManager.CurrentEye.Zoom.Y*15)
             return particles;
 
         EntityUid? grid = xform.GridUid;
