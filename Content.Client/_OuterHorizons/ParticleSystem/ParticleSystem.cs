@@ -9,13 +9,14 @@ namespace Content.Client._OuterHorizons.ParticleSystem;
 
 public sealed partial class ParticleSystem : EntitySystem
 {
-    [Dependency] private readonly ILogManager _logManager = default!;
+    private ISawmill _sawmill = default!;
+    [Dependency] private ILogManager _logManager = default!;
     [Dependency] private IOverlayManager _overlayManager = default!;
     [Dependency] private SpriteSystem _sprites = default!;
     [Dependency] private IGameTiming _timing = default!;
 
     public List<Particle> particles = new List<Particle>();
-    private ISawmill _sawmill = default!;
+    public int particlesSpawn = 0;
 
 
 
@@ -23,18 +24,28 @@ public sealed partial class ParticleSystem : EntitySystem
     public int maxParticles = 1000;
 
     private ParticleOverlaySystem? _overlay;
+    private ParticleBelowOverlaySystem? _overlayBelow;
 
     private int frame;
-
 
     public override void Initialize()
     {
         base.Initialize();
-        _overlay = new ParticleOverlaySystem(this, _sprites, EntityManager, ProtoMan);
+        _overlay = new ParticleOverlaySystem(this, _sprites, EntityManager, ProtoMan, _timing);
         _overlayManager.AddOverlay(_overlay);
+        _overlayBelow = new ParticleBelowOverlaySystem(this, _sprites, EntityManager, ProtoMan, _timing);
+        _overlayManager.AddOverlay(_overlayBelow);
 
         _sawmill = _logManager.GetSawmill("oh.particle_system");
         _sawmill.Info("Работает");
+    }
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        if (_overlay != null)
+            _overlayManager.RemoveOverlay(_overlay);
+        if (_overlayBelow != null)
+            _overlayManager.RemoveOverlay(_overlayBelow);
     }
     public override void Update(float frameTime)
     {
@@ -54,7 +65,15 @@ public sealed partial class ParticleSystem : EntitySystem
         foreach (Particle p in particles)
         {
             if (_timing.CurTime > p.despawnTime) continue;
-            p.velocity = p.velocity + (p.zeroVelocity - p.velocity) * p.damping * frameTime;//(p.zeroVelocity - p.velocity) * p.damping;
+            if(p.parentGrid!=null){
+                p.velocity = p.velocity + (p.zeroVelocity - p.velocity) * p.damping * frameTime;//(p.zeroVelocity - p.velocity) * p.damping;
+            }
+            p.velocity += p.force * frameTime;
+            if (p.veloctiyNoice != 0)
+            {
+                p.velocity += new Vector2(ShittyPerlinNoice.Pn(p.position.X+(float)_timing.CurTime.TotalSeconds*25 * p.noiceSpeed, (float)_timing.CurTime.TotalSeconds * p.noiceSpeed),ShittyPerlinNoice.Pn(p.position.Y+(float)_timing.CurTime.TotalSeconds*25 * p.noiceSpeed+10, (float)_timing.CurTime.TotalSeconds * p.noiceSpeed+10)) * p.veloctiyNoice * frameTime;
+            }
+
             p.position += p.velocity * frameTime;
 
             if (p.rotateToVelocity)
@@ -64,8 +83,14 @@ public sealed partial class ParticleSystem : EntitySystem
                 p.rotation = MathF.Atan2(vel.Y, vel.X) * (180f / MathF.PI);
             }
             else
-            {
-                p.angularVelocity = p.angularVelocity - p.angularVelocity * p.angularDamping * frameTime;
+            {  
+                if(p.parentGrid!=null){
+                    p.angularVelocity = p.angularVelocity - p.angularVelocity * p.angularDamping * frameTime;
+                }
+                if (p.angularVelocityNoice != 0)
+                {
+                    p.angularVelocity += ShittyPerlinNoice.Pn(p.rotation+(float)_timing.CurTime.TotalSeconds*25 * p.noiceSpeed+25, (float)_timing.CurTime.TotalSeconds * p.noiceSpeed+25)*frameTime*p.angularVelocityNoice;
+                }
                 p.rotation += p.angularVelocity * frameTime;
             }
             if (p.rotation >= 360)
@@ -79,7 +104,7 @@ public sealed partial class ParticleSystem : EntitySystem
 
 
 
-
+            // анимация. не смотри сюда
             if (p.animated){
                 p.frameNum = 0;
                 var state = p.rsi;
@@ -130,9 +155,20 @@ public sealed partial class ParticleSystem : EntitySystem
             {
                 particles.RemoveAt(0);
             }
+            p.index = particlesSpawn;
             particles.Add(p);
+            particlesSpawn += 1;
             //_sawmill.Error("Добавлен партикл: "+p.id+" "+p.frameNum+" "+p.position+" "+p.rotation+" "+p.velocity+" "+p.parentGridUid);
             //_sawmill.Error("Количество партиклов: "+particles.Count);
         }
+        particles.Sort((x, y) =>
+        {
+            var zComp = x.zindex.CompareTo(y.zindex);
+
+            if (zComp != 0)
+                return zComp;
+
+            return x.index.CompareTo(y.index);
+        });
     }
 }

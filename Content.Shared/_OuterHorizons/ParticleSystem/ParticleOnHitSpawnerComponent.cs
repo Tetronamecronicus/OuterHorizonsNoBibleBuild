@@ -5,10 +5,9 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared._OuterHorizons.ParticleSystem;
 
-[RegisterComponent, NetworkedComponent]
-public sealed partial class ParticleSpawnerComponent : Component
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+public sealed partial class ParticleOnHitSpawnerComponent : Component
 {
     //[DataField] public string id = "Grassa1";
-    [DataField] public string paritcle = "TestParticle";
-    [DataField] public string spawnType = "ParticleSpread";
+    [DataField, AutoNetworkedField] public string toSpawn = "TestParticle, ParticleSpread";
 }
