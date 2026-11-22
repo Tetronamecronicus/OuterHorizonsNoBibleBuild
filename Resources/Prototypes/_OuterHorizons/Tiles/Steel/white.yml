@@ -1,0 +1,98 @@
+# =============================================================================
+# Белые
+# =============================================================================
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite
+  editorHidden: false
+  name: white-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/basic.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Horizontal
+  editorHidden: false
+  name: white-horizontal-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/horizontal.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Vertical
+  editorHidden: false
+  name: white-vertical-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/vertical.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Mono
+  editorHidden: false
+  name: white-mono-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/mono.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Mini
+  editorHidden: false
+  name: white-mini-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/mini.png
+  variants: 7
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Plastic
+  editorHidden: false
+  name: white-plastic-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/plastic.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Chess
+  editorHidden: false
+  name: white-chess-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/chess.png
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipWhite_Diagonal
+  editorHidden: false
+  name: white-diagonal-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_white/diagonal.png
