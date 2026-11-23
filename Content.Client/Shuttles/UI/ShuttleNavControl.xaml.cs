@@ -295,6 +295,10 @@ public sealed partial class ShuttleNavControl : BaseShuttleControl
             DrawVelocity(handle, worldToView, gUid, labelColor);
             // OH-Changes-end
         }
+        // OH-Changes-start, drawOrbits
+        if (ourGridId == null)
+            DrawPlayerOrbit(handle, worldToShuttle * shuttleToView);
+        // OH-Changes-end
 
         // If we've set the controlling console, and it's on a different grid
         // to the shuttle itself, then draw an additional marker to help the

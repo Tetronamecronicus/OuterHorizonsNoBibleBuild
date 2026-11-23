@@ -12,4 +12,9 @@ public sealed partial class ActiveJetpackComponent : Component
 {
     [ViewVariables]
     public TimeSpan NextGasUsage = TimeSpan.Zero;
+
+    // OH-Changes-start, orbitalJetpack
+    [Access(Other = AccessPermissions.ReadWrite)]
+    public bool Thrusting;
+    // OH-Changes-end
 }

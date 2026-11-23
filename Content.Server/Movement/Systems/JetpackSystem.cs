@@ -33,6 +33,12 @@ public sealed partial class JetpackSystem : SharedJetpackSystem
 
             var gasTank = (uid, gasTankComp);
             active.NextGasUsage = _timing.CurTime + TimeSpan.FromSeconds(comp.GasUsageInterval);
+            // OH-Changes-start, orbitalJetpack: без ввода движения топливо не тратим
+            if (!active.Thrusting)
+                continue;
+
+            active.Thrusting = false;
+            // OH-Changes-end
             var usedAir = _gasTank.RemoveAir(gasTank, comp.MoleUsage);
 
             var usedEnoughAir =

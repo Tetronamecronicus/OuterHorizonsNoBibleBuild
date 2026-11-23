@@ -327,7 +327,15 @@ public abstract partial class SharedMoverController : VirtualController
          * environment you take into account the fact they can snake! Also be sure to lower acceleration as well to
          * prevent jerky movement!
          */
-        PhysicsSystem.SetLinearVelocity(uid, velocity, body: physicsComponent);
+
+        // OH-Changes-start, orbitalMoverment
+        // PhysicsSystem.SetLinearVelocity(uid, velocity, body: physicsComponent);
+
+        if (weightless || inAirHelpless)
+            ApplyOrbitalMovement(uid, physicsComponent, wishDir, accel, touching);
+        else
+            PhysicsSystem.SetLinearVelocity(uid, velocity, body: physicsComponent);
+        // OH-Changes-end
 
         // Ensures that players do not spiiiiiiin
         PhysicsSystem.SetAngularVelocity(uid, 0, body: physicsComponent);
