@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "license": "CC-BY-NC-SA-4.0",
+  "copyright": "NES-Station. Artist`s : Maxgab, Aserovich",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "bed",
+      "directions": 4
+    },
+    {
+      "name": "bed-MED",
+      "directions": 4
+    },
+    {
+      "name": "mattress"
+    },
+    {
+      "name": "psychbed"
+    },
+    {
+      "name": "rack"
+    },
+    {
+      "name": "dresser"
+    },
+    {
+      "name": "dresser_dark"
+    },
+    {
+      "name": "dresser_dark_open"
+    },
+    {
+        "name": "rack-engi"
+      },
+      {
+        "name": "rack-med"
+      },
+      {
+        "name": "racks"
+      },
+      {
+        "name": "racks-0"
+      },
+      {
+        "name": "racks-1"
+      },
+      {
+        "name": "racks-2"
+      },
+      {
+        "name": "racks-3"
+      },
+      {
+        "name": "tv"
+      },
+      {
+        "name": "screen"
+      },
+      {
+        "name": "mattress-dirty"
+      }
+  ]
+}

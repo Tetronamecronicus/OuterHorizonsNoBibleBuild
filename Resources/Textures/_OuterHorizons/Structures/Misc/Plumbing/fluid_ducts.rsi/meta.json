@@ -1,0 +1,31 @@
+{
+    "version": 1,
+    "license": "All right reserved",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "ductBend",
+            "directions": 4
+        },
+        {
+            "name": "ductConnector",
+            "directions": 4
+        },
+        {
+            "name": "ductFourway",
+            "directions": 4
+        },
+        {
+            "name": "ductStraight",
+            "directions": 4
+        },
+        {
+            "name": "ductTJunction",
+            "directions": 4
+        }
+    ]
+}

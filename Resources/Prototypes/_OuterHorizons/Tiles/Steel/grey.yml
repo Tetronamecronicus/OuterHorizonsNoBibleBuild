@@ -1,0 +1,98 @@
+# =============================================================================
+# Серые
+# =============================================================================
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey
+  editorHidden: false
+  name: grey-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/basic.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Horizontal
+  editorHidden: false
+  name: grey-horizontal-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/horizontal.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Vertical
+  editorHidden: false
+  name: grey-vertical-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/vertical.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Mono
+  editorHidden: false
+  name: grey-mono-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/mono.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Mini
+  editorHidden: false
+  name: grey-mini-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/mini.png
+  variants: 7
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Plastic
+  editorHidden: false
+  name: grey-plastic-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/plastic.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Chess
+  editorHidden: false
+  name: grey-chess-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/chess.png
+
+- type: tile
+  parent: OH14_BaseStationTile
+  id: OH14_FloorShipGrey_Diagonal
+  editorHidden: false
+  name: grey-diagonal-floor
+  sprite: /Textures/_OuterHorizons/Tiles/Steel_grey/diagonal.png

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "license": "All right reserved",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "Board"
+    },
+    {
+      "name": "Board_inworld"
+    },
+    {
+      "name": "upgrade"
+    },
+    {
+      "name": "door_board"
+    },
+    {
+      "name": "door_board_inworld"
+    }
+  ]
+}

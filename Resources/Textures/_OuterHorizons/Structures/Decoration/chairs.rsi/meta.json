@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "license": "CC-BY-NC-SA-4.0",
+  "copyright": "Created by Aserovich (Aska) for Outer Horizons project. Do not use, copy, or modify without permission.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "log-bench",
+      "directions": 4
+    },
+    {
+      "name": "basic",
+      "directions": 4
+    },
+    {
+      "name": "shuttle",
+      "directions": 4
+    },
+    {
+        "name": "wooden",
+        "directions": 4
+      }
+  ]
+}

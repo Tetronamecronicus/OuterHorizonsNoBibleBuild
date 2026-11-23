@@ -7,6 +7,7 @@ using Robust.Shared.Collections;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Server._OuterHorizons.SolarFlare.Components; // OH-Changes, solarFlare
 
 namespace Content.Server.Radiation.Systems;
 
@@ -73,6 +74,21 @@ public partial class RadiationSystem
             var rads = 0f;
             foreach (var source in _sources)
             {
+                // OH-Changes-start, solarFlare
+                if (HasComp<RadiationImmuneComponent>(destUid))
+                {
+                    rads = 0f;
+                    break;
+                }
+
+                if (source.Entity.Comp1.IgnoreDistation)
+                {
+                    rads += source.Entity.Comp1.Intensity;
+
+                    continue;
+                }
+                // OH-Changes-end
+
                 // send ray towards destination entity
                 if (Irradiate(source, destUid, destTrs, destWorld, debug) is not { } ray)
                     continue;
