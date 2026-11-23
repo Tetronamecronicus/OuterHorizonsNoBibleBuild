@@ -1,0 +1,281 @@
+# все партиклы в компонентах спавна должны записываться в таком порядке: "id партикла1, id спавна1; id партикла2, id спавна2"
+# т.е. слева партикл, затем запятая, затем прототип спавна справа,  а если типов партиклов должно спавниться несколько, то их надо разделять через ";"
+
+
+- type: particle  # прототип частицы
+  id: baseParticle
+  sprite:
+    sprite: Effects/chemsmoke.rsi
+    state: chemsmoke
+  damping: 0
+  zindex: 0 # чем выше число, тем позднее будет орисован партикл, следовательно он будет визуально выше того, что было нарисовано до него
+  angulardamping: 0
+  animated: true  # при false будет устанавливать текстуру случайного кадра анимации
+  rtv: false   # будет ли партикл повёрнут в направлении движения (спрайт должен быть повёрнут вправо)
+  lifetime: 1
+  rlifetime: 0
+  scale: 1
+  rscale: 0
+  rbrightness: 0 # слушайным орбазом уменьшает яркость партикла в диапазоне.  типа при rbrightness = 0.5, то яркость партикла может быть от 1, до 1 - 0.5
+  nvelocity: 0
+  navelocity: 0
+  vispossnap: 0 # округление визуального положения
+  visrotsnap: 0 # округление визуального вращения в градусах
+  noiceSpeed: 1 # скорость изменения шума
+  fade:  # градиет изменения прозрачности партикла
+  - 0, 1    # это точки градиента.  дабавлять через  "- x, y"  значение X - положение точки в градиенте от 0 до 1,  Y - значение точки в градиенте (без пределов)
+  scalegrad:  # градиент изменения размеров партикла
+  - 0, 1
+
+
+
+# все параметры с "r" в начале - случайное изменение параметра.    при dir = 0   rdir = 5,  то dir может быть случайным числом от -2.5 до 2.5
+# всу параметры с "n" в начале - смягчённое случайное изменение параметра.   максимальное и минимальное значение как у "r", но там плавный переход в течении времени
+
+- type: particlespawn  # прототип для спавна частицы
+  id: baseParticleSpawn
+  amount: 1
+  ramount: 0
+  position: 0, 0  # положение относительно спавнера
+  rposition: 0, 0
+  dirpos: 0 # положение в направлении dir
+  velocity: 0, 0 # векторное движение партикла
+  rvelocity: 0, 0
+  rotation: 0
+  rrotation: 0
+  local: false # будут ли скорости, позиции, вращения задаваться с учётом вращения камеры
+  avelocity: 0 # скорость вращения  (avelocity   a-velocity   angular velocity)
+  ravelocity: 0
+  stype: 0 # тип спавна    0 - линейно по направлению    1 - во все стороны    2 - по конусу
+  onlyspeed: false # учитывается только speed, а velocity не учитывается
+  speed: 0 # скорось в направлении dir, при onlyspeed = false - скорость добавляется к velocity
+  rspeed: 0
+  dir: 0 # направление в градусах
+  rdir: 0
+  conespread: 45 # угол конуса?  чтобы сделать случайный разброс используй rdir
+
+
+
+
+
+
+- type: particle
+  id: TestParticle
+  sprite:
+    sprite: Effects/spookysmoke.rsi
+    state: spookysmoke_static
+  frameNum: 0
+  damping: 0.1
+  angulardamping: 0.1
+  lifetime: 5
+  rlifetime: 3
+  vispossnap: 0.5
+  visrotsnap: 0.5
+  below: true
+
+
+- type: particlespawn
+  id: ParticleSpread
+  amount: 25
+  ramount: 10
+  stype: 1
+  onlyspeed: true
+  speed: 2
+  rspeed: 1
+
+- type: particlespawn
+  id: ParticleThrow
+  amount: 25
+  ramount: 10
+  stype: 0
+  onlyspeed: true
+  speed: 1
+  rspeed: 1
+  dirpos: 1
+  local: true
+  dir: 0
+
+- type: particle
+  id: SmokeParticle
+  sprite:
+    sprite: Effects/spookysmoke.rsi
+    state: spookysmoke
+  frameNum: 0
+  damping: 0.3
+  angulardamping: 0.05
+  lifetime: 15
+  rlifetime: 3
+  nvelocity: 0.01
+  navelocity: 1
+  noicespeed: 0.05
+  scale: 1
+  vispossnap: 0.2
+  visrotsnap: 50
+  visscalesnap: 0.2
+  visfadesnap: 0.2
+  fade:
+  - 0, 0
+  - 0.05, 1
+  - 1, 0
+  scalegrad:
+  - 0, 0
+  - 0.1, 1
+  - 0.5, 2
+  - 1, 0
+
+
+- type: particle
+  id: SmokeRandomParticleNoSnap
+  sprite:
+    sprite: Effects/spookysmoke.rsi
+    state: spookysmoke
+  frameNum: 0
+  damping: 0.3
+  angulardamping: 0.05
+  lifetime: 15
+  rlifetime: 3
+  nvelocity: 0.01
+  navelocity: 1
+  noicespeed: 0.05
+  scale: 1
+  rbrightness: 0.5
+  zindex: 1
+  fade:
+  - 0, 0.3
+  - 0.05, 0.3
+  - 1, 0
+  scalegrad:
+  - 0, 0.3
+  - 0.1, 1
+  - 0.5, 2
+  - 1, 0
+  animated: false
+
+- type: particle
+  id: SmokeRandomParticle
+  sprite:
+    sprite: Effects/spookysmoke.rsi
+    state: spookysmoke
+  frameNum: 0
+  damping: 0.3
+  angulardamping: 0.05
+  lifetime: 15
+  rlifetime: 3
+  nvelocity: 0.01
+  navelocity: 1
+  noicespeed: 0.05
+  scale: 1
+  vispossnap: 0.2
+  visrotsnap: 50
+  visscalesnap: 0.2
+  visfadesnap: 0.2
+  rbrightness: 0.5
+  zindex: 1
+  fade:
+  - 0, 0.3
+  - 0.05, 0.3
+  - 1, 0
+  scalegrad:
+  - 0, 0.3
+  - 0.1, 1
+  - 0.5, 2
+  - 1, 0
+  animated: false
+
+
+# SmokeRandomParticle, ParticleSmokeSpread
+
+- type: particlespawn
+  id: ParticleSmokeSpread
+  amount: 25
+  ramount: 10
+  stype: 1
+  onlyspeed: true
+  speed: 0
+  rspeed: 0.5
+  avelocity: 0
+  ravelocity: 25
+
+
+- type: particle
+  id: SparkParticle
+  sprite:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+    state: bullet
+  frameNum: 0
+  damping: 0
+  angulardamping: 0
+  lifetime: 3.5
+  rlifetime: 0
+  rtv: true
+
+
+- type: particlespawn
+  id: ParticleSparkSpread
+  amount: 10
+  ramount: 5
+  stype: 2
+  onlyspeed: true
+  speed: 3
+  rspeed: 1.5
+  avelocity: 0
+  ravelocity: 0
+  rdir: 15
+  conespread: 45
+  local: true
+
+
+# RockParticle, ParticleRockSpread; SmokeRandomParticle, ParticleRockSmokeSpread
+
+
+- type: particle
+  id: RockParticle
+  sprite:
+    sprite: 
+      Objects/Decoration/Flora/flora_rockssolid.rsi
+    state: rocksolid03
+  frameNum: 0
+  animated: false
+  damping: 0.7
+  angulardamping: 0.7
+  lifetime: 10
+  rlifetime: 5
+  scale: 0.5
+  rscale: 0.5
+  vispossnap: 0.1
+  visrotsnap: 15
+  visscalesnap: 0.2
+  visfadesnap: 0.1
+  below: true
+  rbrightness: 0.5
+  fade:
+  - 0, 1
+  - 0.9, 1
+  - 1, 0
+
+
+- type: particlespawn
+  id: ParticleRockSpread
+  amount: 10
+  ramount: 5
+  stype: 2
+  onlyspeed: true
+  speed: 0
+  rspeed: 1
+  rrotation: 360
+  avelocity: 0
+  ravelocity: 50
+  rdir: 360
+
+
+- type: particlespawn
+  id: ParticleRockSmokeSpread
+  amount: 2
+  ramount: 2
+  stype: 2
+  rdir: 360
+  onlyspeed: true
+  speed: 0
+  rspeed: 0.5
+  avelocity: 0
+  ravelocity: 25
