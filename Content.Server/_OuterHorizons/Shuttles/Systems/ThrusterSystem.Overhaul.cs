@@ -1,5 +1,6 @@
 using Content.Server.Shuttles.Components;
 using Content.Shared.Camera;
+using Content.Shared.Gravity;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Physics.Components;
@@ -19,13 +20,14 @@ public sealed partial class ThrusterSystem
     // После окончания тряски плавно затухает за ShakeFadeTime секунд до ShakeFadeFloor дБ.
     // TODO: заменить на свой звук.
     private static readonly SoundSpecifier ShakeSound = new SoundPathSpecifier("/Audio/_OuterHorizons/Effects/hullrattle.ogg");
-    private const float ShakeSoundVolumeMin = -5f;
+    private const float ShakeSoundVolumeMin = -20f;
     private const float ShakeSoundVolumeMax = 20f;
     private const float ShakeFadeTime = 4f;
     private const float ShakeFadeFloor = -40f;
 
     [Dependency] private SharedCameraRecoilSystem _recoil = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedGravitySystem _gravity = default!;
     [Dependency] private ISharedPlayerManager _players = default!;
     [Dependency] private IRobustRandom _random = default!;
 
@@ -70,6 +72,7 @@ public sealed partial class ThrusterSystem
             foreach (var session in _players.Sessions)
             {
                 if (session.AttachedEntity is not { } player ||
+                    _gravity.IsWeightless(player) ||
                     !TryComp(player, out TransformComponent? playerXform) ||
                     playerXform.GridUid is not { } playerGrid ||
                     !_shakeThrust.TryGetValue(playerGrid, out var thrust) ||
