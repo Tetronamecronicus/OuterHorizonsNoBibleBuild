@@ -242,31 +242,16 @@ public sealed partial class ThrusterSystem : EntitySystem
             }
         }
 
-        // OH-Changes-start, mainThrusters
-
-        // if (component.Type == ThrusterType.Linear)
-        // {
-        //     oldShuttleComponent.LinearThrust[oldDirection] -= component.Thrust;
-        //     DebugTools.Assert(oldShuttleComponent.LinearThrusters[oldDirection].Contains(uid));
-        //     oldShuttleComponent.LinearThrusters[oldDirection].Remove(uid);
-
-        //     shuttleComponent.LinearThrust[direction] += component.Thrust;
-        //     DebugTools.Assert(!shuttleComponent.LinearThrusters[direction].Contains(uid));
-        //     shuttleComponent.LinearThrusters[direction].Add(uid);
-        // }
-
-        if (component.Type != ThrusterType.Angular)
+        if (component.Type == ThrusterType.Linear)
         {
-            ThrustOf(oldShuttleComponent, component)[oldDirection] -= component.Thrust;
-            DebugTools.Assert(ThrustersOf(oldShuttleComponent, component)[oldDirection].Contains(uid));
-            ThrustersOf(oldShuttleComponent, component)[oldDirection].Remove(uid);
+            oldShuttleComponent.LinearThrust[oldDirection] -= component.Thrust;
+            DebugTools.Assert(oldShuttleComponent.LinearThrusters[oldDirection].Contains(uid));
+            oldShuttleComponent.LinearThrusters[oldDirection].Remove(uid);
 
-            ThrustOf(shuttleComponent, component)[direction] += component.Thrust;
-            DebugTools.Assert(!ThrustersOf(shuttleComponent, component)[direction].Contains(uid));
-            ThrustersOf(shuttleComponent, component)[direction].Add(uid);
+            shuttleComponent.LinearThrust[direction] += component.Thrust;
+            DebugTools.Assert(!shuttleComponent.LinearThrusters[direction].Contains(uid));
+            shuttleComponent.LinearThrusters[direction].Add(uid);
         }
-
-        // OH-Changes-end
     }
 
     private void OnAnchorChange(EntityUid uid, ThrusterComponent component, ref AnchorStateChangedEvent args)
@@ -438,21 +423,13 @@ public sealed partial class ThrusterSystem : EntitySystem
 
         switch (component.Type)
         {
-            case ThrusterType.Main: // OH-Changes, mainThrusters
             case ThrusterType.Linear:
                 angle ??= xform.LocalRotation;
                 var direction = (int)angle.Value.GetCardinalDir() / 2;
 
-                // OH-Changes-start, mainThrusters
-
-                // shuttleComponent.LinearThrust[direction] -= component.Thrust;
-                // DebugTools.Assert(shuttleComponent.LinearThrusters[direction].Contains(uid));
-                // shuttleComponent.LinearThrusters[direction].Remove(uid);
-
-                ThrustOf(shuttleComponent, component)[direction] -= component.Thrust;
-                DebugTools.Assert(ThrustersOf(shuttleComponent, component)[direction].Contains(uid));
-                ThrustersOf(shuttleComponent, component)[direction].Remove(uid);
-                // OH-Changes-end
+                shuttleComponent.LinearThrust[direction] -= component.Thrust;
+                DebugTools.Assert(shuttleComponent.LinearThrusters[direction].Contains(uid));
+                shuttleComponent.LinearThrusters[direction].Remove(uid);
                 break;
             case ThrusterType.Angular:
                 shuttleComponent.AngularThrust -= component.Thrust * GetInertiaThresholdScale((uid, component), xform);
