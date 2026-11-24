@@ -86,5 +86,6 @@ namespace Content.Server.Shuttles.Components
         Linear,
         // Angular meaning rotational.
         Angular,
+        Main, // OH-Changes, mainThruster
     }
 }

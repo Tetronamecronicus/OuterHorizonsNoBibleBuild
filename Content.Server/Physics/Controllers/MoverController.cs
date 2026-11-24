@@ -459,68 +459,70 @@ public sealed partial class MoverController : SharedMoverController
             if (brakeInput > 0f)
             {
                 if (body.LinearVelocity.Length() > 0f)
-                {
-                    // Minimum brake velocity for a direction to show its thrust appearance.
-                    const float appearanceThreshold = 0.1f;
+                // OH-Changes-start, ДА Я ГНИДА КОТОРАЯ ТУПО ЗАКОММЕНТИЛА КУСОК КОДА, остается только угловое торможение, так как у нас орбиты
+                // {
+                //     // Minimum brake velocity for a direction to show its thrust appearance.
+                //     const float appearanceThreshold = 0.1f;
 
-                    // Get velocity relative to the shuttle so we know which thrusters to fire
-                    var shuttleVelocity = (-shuttleNorthAngle).RotateVec(body.LinearVelocity);
-                    var force = Vector2.Zero;
+                //     // Get velocity relative to the shuttle so we know which thrusters to fire
+                //     var shuttleVelocity = (-shuttleNorthAngle).RotateVec(body.LinearVelocity);
+                //     var force = Vector2.Zero;
 
-                    if (shuttleVelocity.X < 0f)
-                    {
-                        _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.West);
+                //     if (shuttleVelocity.X < 0f)
+                //     {
+                //         _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.West);
 
-                        if (shuttleVelocity.X < -appearanceThreshold)
-                            _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.East);
+                //         if (shuttleVelocity.X < -appearanceThreshold)
+                //             _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.East);
 
-                        var index = (int) Math.Log2((int) DirectionFlag.East);
-                        force.X += shuttle.LinearThrust[index];
-                    }
-                    else if (shuttleVelocity.X > 0f)
-                    {
-                        _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.East);
+                //         var index = (int) Math.Log2((int) DirectionFlag.East);
+                //         force.X += shuttle.LinearThrust[index];
+                //     }
+                //     else if (shuttleVelocity.X > 0f)
+                //     {
+                //         _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.East);
 
-                        if (shuttleVelocity.X > appearanceThreshold)
-                            _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.West);
+                //         if (shuttleVelocity.X > appearanceThreshold)
+                //             _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.West);
 
-                        var index = (int) Math.Log2((int) DirectionFlag.West);
-                        force.X -= shuttle.LinearThrust[index];
-                    }
+                //         var index = (int) Math.Log2((int) DirectionFlag.West);
+                //         force.X -= shuttle.LinearThrust[index];
+                //     }
 
-                    if (shuttleVelocity.Y < 0f)
-                    {
-                        _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.South);
+                //     if (shuttleVelocity.Y < 0f)
+                //     {
+                //         _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.South);
 
-                        if (shuttleVelocity.Y < -appearanceThreshold)
-                            _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.North);
+                //         if (shuttleVelocity.Y < -appearanceThreshold)
+                //             _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.North);
 
-                        var index = (int) Math.Log2((int) DirectionFlag.North);
-                        force.Y += shuttle.LinearThrust[index];
-                    }
-                    else if (shuttleVelocity.Y > 0f)
-                    {
-                        _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.North);
+                //         var index = (int) Math.Log2((int) DirectionFlag.North);
+                //         force.Y += shuttle.LinearThrust[index];
+                //     }
+                //     else if (shuttleVelocity.Y > 0f)
+                //     {
+                //         _thruster.DisableLinearThrustDirection(shuttle, DirectionFlag.North);
 
-                        if (shuttleVelocity.Y > appearanceThreshold)
-                            _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.South);
+                //         if (shuttleVelocity.Y > appearanceThreshold)
+                //             _thruster.EnableLinearThrustDirection(shuttle, DirectionFlag.South);
 
-                        var index = (int) Math.Log2((int) DirectionFlag.South);
-                        force.Y -= shuttle.LinearThrust[index];
-                    }
+                //         var index = (int) Math.Log2((int) DirectionFlag.South);
+                //         force.Y -= shuttle.LinearThrust[index];
+                //     }
 
-                    var impulse = force * brakeInput * ShuttleComponent.BrakeCoefficient;
-                    impulse = shuttleNorthAngle.RotateVec(impulse);
-                    var forceMul = frameTime * body.InvMass;
-                    var maxVelocity = (-body.LinearVelocity).Length() / forceMul;
+                //     var impulse = force * brakeInput * ShuttleComponent.BrakeCoefficient;
+                //     impulse = shuttleNorthAngle.RotateVec(impulse);
+                //     var forceMul = frameTime * body.InvMass;
+                //     var maxVelocity = (-body.LinearVelocity).Length() / forceMul;
 
-                    // Don't overshoot
-                    if (impulse.Length() > maxVelocity)
-                        impulse = impulse.Normalized() * maxVelocity;
+                //     // Don't overshoot
+                //     if (impulse.Length() > maxVelocity)
+                //         impulse = impulse.Normalized() * maxVelocity;
 
-                    PhysicsSystem.ApplyForce(shuttleUid, impulse, body: body);
-                }
-                else
+                //     PhysicsSystem.ApplyForce(shuttleUid, impulse, body: body);
+                // }
+                // else
+                // OH-Changes-end
                 {
                     _thruster.DisableLinearThrusters(shuttle);
                 }
