@@ -70,7 +70,7 @@ public sealed partial class ThrusterSystem : EntitySystem
         {
             args.PushMarkup(enabled);
 
-            if (component.Type == ThrusterType.Linear &&
+            if (component.Type != ThrusterType.Angular && // component.Type == ThrusterType.Linear && // OH-Changes, mainThrusters
                 TryComp(uid, out TransformComponent? xform) &&
                 xform.Anchored)
             {
@@ -323,12 +323,16 @@ public sealed partial class ThrusterSystem : EntitySystem
 
         switch (component.Type)
         {
+            case ThrusterType.Main: // OH-Changes, mainThrusters
             case ThrusterType.Linear:
-                var direction = (int)xform.LocalRotation.GetCardinalDir() / 2;
+                if (component.Type == ThrusterType.Linear) // OH-Changes, mainThrusters
+                {
+                    var direction = (int)xform.LocalRotation.GetCardinalDir() / 2;
 
-                shuttleComponent.LinearThrust[direction] += component.Thrust;
-                DebugTools.Assert(!shuttleComponent.LinearThrusters[direction].Contains(uid));
-                shuttleComponent.LinearThrusters[direction].Add(uid);
+                    shuttleComponent.LinearThrust[direction] += component.Thrust;
+                    DebugTools.Assert(!shuttleComponent.LinearThrusters[direction].Contains(uid));
+                    shuttleComponent.LinearThrusters[direction].Add(uid);
+                }
 
                 // Don't just add / remove the fixture whenever the thruster fires because perf
                 if (TryComp(uid, out PhysicsComponent? physicsComponent) &&
@@ -432,6 +436,10 @@ public sealed partial class ThrusterSystem : EntitySystem
                 DebugTools.Assert(shuttleComponent.AngularThrusters.Contains(uid));
                 shuttleComponent.AngularThrusters.Remove(uid);
                 break;
+            // OH-Changes-start, mainThrusters
+            case ThrusterType.Main:
+                break;
+            // OH-Changes-end
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -496,6 +504,7 @@ public sealed partial class ThrusterSystem : EntitySystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+        UpdateMainEngines(frameTime); // OH-Changes, mainThrusters
 
         var query = EntityQueryEnumerator<ThrusterComponent>();
         var curTime = _timing.CurTime;
