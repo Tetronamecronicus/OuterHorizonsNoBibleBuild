@@ -7,7 +7,6 @@ using Robust.Shared.Physics.Systems;
 
 namespace Content.Server.Shuttles.Systems;
 
-// OuterHorizons: маршевые двигатели.
 public sealed partial class ThrusterSystem
 {
     [Dependency] private SharedPhysicsSystem _physics = default!;
@@ -19,6 +18,8 @@ public sealed partial class ThrusterSystem
     /// </summary>
     private void UpdateMainEngines(float frameTime)
     {
+        UpdateOverhaul(frameTime);
+
         var query = EntityQueryEnumerator<ThrusterComponent, TransformComponent>();
         while (query.MoveNext(out var uid, out var comp, out var xform))
         {

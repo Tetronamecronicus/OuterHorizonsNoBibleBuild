@@ -51,12 +51,12 @@ public sealed partial class ParticleSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        frame += 1;
-        if (frame > 1000)
-        {
-            frame = 0;
-            _sawmill.Info("Количество партиклов: "+particles.Count);
-        }
+        // frame += 1;
+        // if (frame > 1000)
+        // {
+        //     frame = 0;
+        //     _sawmill.Info("Количество партиклов: "+particles.Count);
+        // }
 
         List<Particle> newParticles = new List<Particle>();
 
@@ -83,7 +83,7 @@ public sealed partial class ParticleSystem : EntitySystem
                 p.rotation = MathF.Atan2(vel.Y, vel.X) * (180f / MathF.PI);
             }
             else
-            {  
+            {
                 if(p.parentGrid!=null){
                     p.angularVelocity = p.angularVelocity - p.angularVelocity * p.angularDamping * frameTime;
                 }
