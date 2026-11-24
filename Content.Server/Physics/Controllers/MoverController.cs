@@ -179,6 +179,8 @@ public sealed partial class MoverController : SharedMoverController
         }
 
         HandleShuttleMovement(frameTime);
+
+        HandleMainEngines(); // OH-Changes, mainThrusters
         return;
 
         // When we insert a chain of relay sources we have to flip its ordering

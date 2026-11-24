@@ -35,6 +35,7 @@ public sealed partial class NavScreen : BoxContainer
 
         ArrivalDockToggle.OnToggled += OnArrivalDockTogglePressed;
         ArrivalDockToggle.Pressed = NavRadar.ShowArrivalDocks;
+        InitializeMainEngines(); // OH-Changes
     }
 
     public void SetShuttle(EntityUid? shuttle)
@@ -114,6 +115,9 @@ public sealed partial class NavScreen : BoxContainer
         GridAngularVelocity.Text = Loc.GetString("shuttle-console-angular-velocity-value",
             ("angularVelocity", $"{-MathHelper.RadiansToDegrees(gridBody.AngularVelocity) + 10f * float.Epsilon:0.0}"));
 
-        UpdateOrbitInfo(); // OH-Changes, drawOrbits
+        // OH-Changes-start, drawOrbits, mainThrusters
+        UpdateOrbitInfo();
+        UpdateMainEngines();
+        // OH-Changes-end
     }
 }

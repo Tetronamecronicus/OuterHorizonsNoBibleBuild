@@ -53,7 +53,7 @@
             <Label Name="OrbitEccentricity" Text="0.0" HorizontalExpand="True" Align="Right"/>
             <Label Text="Period"/>
             <Label Name="OrbitPeriod" Text="0.0" HorizontalExpand="True" Align="Right"/>
-            <!-- OH-Changes-end, drawOrbitals -->
+            <!-- OH-Changes-end -->
         </GridContainer>
         <controls:StripeBack MinSize="48 48">
             <Label
@@ -67,6 +67,10 @@
             Text="{Loc 'shuttle-console-iff-toggle'}"
             TextAlign="Center"
             ToggleMode="True"/>
+
+        <!-- OH-Changes-start, mainThrusters -->
+        <Button Name="MainEnginesToggle" Text="{Loc 'shuttle-console-main-engines'}" ToggleMode="True" HorizontalExpand="True"/>
+        <!-- OH-Changes-end -->
 
         <controls:StripeBack MinSize="48 48">
             <Label Text="{Loc 'shuttle-console-nav-legend'}"
